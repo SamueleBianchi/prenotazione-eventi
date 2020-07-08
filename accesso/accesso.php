@@ -34,7 +34,7 @@ if($num=='1'){
 //					setcookie ("password","");
 //				}
 //			}
-    header("Location: ../homepage.php");   
+    header("Location: ../index.php");   
 } else {
     echo '<html>
     <head>
