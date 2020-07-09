@@ -7,22 +7,43 @@
  */
 require "../Database/connect.php";
 require dirname(__FILE__).'/../Filtro/filtro.php';  
+$admin = 0;
+if(!isset($_POST["id"]) || trim($_POST["id"]) == ''){
+
+}else{
+    echo $admin = 1;
+    $idadmin = $_POST["id"];
+}
 
 $email= filtra($_POST["email"]);
 $password=filtra($_POST["password"]);
 
-$query="SELECT * FROM utenti WHERE email = '$email' AND pwd = MD5('".$password."')";
-$risultato = $connessione->query($query);
+if($admin == 0){
+    $query="SELECT * FROM utenti WHERE email = '$email' AND pwd = MD5('".$password."')";
+    $risultato = $connessione->query($query);
+    $num = $risultato->rowCount();
+}else{
+    if($admin == 1){
+        $query="SELECT * FROM Admins WHERE IDAdmin = '$idadmin' AND email = '$email' AND pwd = '$password'";
+        $risultato = $connessione->query($query);
+        $num = $risultato->rowCount();
+    }
+}
 foreach ($connessione->query($query) as $row) {
-        $foto =  $row['fotoProfilo'];
         $nome = $row['nome'];
         $id = $row['IDUtente'];
+        $cognome = $row['cognome'];
+        $pwd = $row['pwd'];
     }
-$num = $risultato->rowCount();
 if($num=='1'){
     session_start();
+    if($admin == 1){
+        $_SESSION['id'] = $idadmin;
+    }
     $_SESSION['email'] = $email;
     $_SESSION['IDUtente'] = $id;
+    $_SESSION['nome'] = $nome;
+    $_SESSION['cognome'] = $cognome;
 //    if(!empty($_POST["remember"])) {
 //				setcookie ("email",$_POST["email"],time()+ (10 * 365 * 24 * 60 * 60), "/");
 //				setcookie ("password",$_POST["password"],time()+ (10 * 365 * 24 * 60 * 60), "/");

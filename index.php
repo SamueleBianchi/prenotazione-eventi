@@ -8,7 +8,7 @@ and open the template in the editor.
 $_SERVER['PHP_SELF'];
 session_start(); 
 if(!isset($_SESSION['email'])){
-header('Location: index.php');
+header('Location: accessPage.php');
 }?>
 <html>
 <!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
@@ -36,19 +36,44 @@ header('Location: index.php');
 		
 		});
     
+    
+                $("#profilo").click(function(){
+                        $("#testo").text("");
+                       if($(window).width() < 767){
+                            $("#mainmenu").toggleClass("show");
+                        }
+                        $("#aggiornaProfilo").css("display","block");
+                });
+                
     });
+    
+    $(document).on('submit', 'form#aggiornaProfilo', function(evt){
+                    $.ajax({
+                    type: "POST",
+                    url: "./modificaProfilo/modificaProfilo.php",
+                    data :{nome: $("#nome").val(),cognome: $("#cognome").val(),email: $("#email").val(),pwd: $("#pwd").val(), pwd2: $("#pwd2").val(), pwd3: $("#pwd3").val()},
+                    success: function(data)
+                    {
+                        $("#success").empty(); // show response from the php script.
+                        $("#success").html(data); // show response from the php script.
+                        $("#success").css("display", "block");
+                    }
+                    });
+                    evt.preventDefault(); 
+                 });
+    
+     
     </script>
         <title></title>
         
     </head>
-    <body>
-        <div id="wrapper">
-
+    <body style="background-color: white;">
+    <div id="wrapper">
     <header id="header">
     
         <h1 id="site-title"><a href="#">Events</a></h1>
         
-        <div class="btn-responsive-menu">
+        <div class="btn-responsive-menu" id="miomenu">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -58,27 +83,67 @@ header('Location: index.php');
     
     <div id="mainmenu">
 	 	<ul>
+                <?php if(!isset($_SESSION['id'])){ ?>
         	<li><a href=""><span class="glyphicon glyphicon-home"></span> Home</a></li>
-            <li><a href=""><span class="glyphicon glyphicon-user"></span> Il mio profilo</a></li>
-            <li><a href=""><span class="glyphicon glyphicon-list-alt"></span> I miei eventi</a></li>
-            <li><a href=""><span class="glyphicon glyphicon-calendar"></span> Eventi disponibili</a></li>
+            <li id="profilo"><a id="profilo"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
+            <li><a><span class="glyphicon glyphicon-qrcode"></span> Scan</a></li>
+            <li><a><span class="glyphicon glyphicon-list-alt"></span> I miei eventi</a></li>
+            <li><a><span class="glyphicon glyphicon-calendar"></span> Eventi disponibili</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
+                <?php }else{?>
+            <li><a href=""><span class="glyphicon glyphicon-user"></span> Il mio profilo</a></li>
+            <li><a href=""><span class="glyphicon glyphicon-list-alt"></span> Gestisci eventi</a></li>
+            <li><a href=""><span class="glyphicon glyphicon-align-justify"></span> Visualizza utenti</a></li>
+            <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
+                <?php } ?>
         </ul> 
 	</div> <!-- #mainmenu -->
     
 	<div id="main">
-    
-        <!-- Prompt IE 6 and 7 users to install Chrome Frame:		chromium.org/developers/how-tos/chrome-frame-getting-started -->
-        <!--[if lt IE 8]>
-            <p class="chromeframe alert alert-warning">Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p>
-        <![endif]--> 
-    
-        <h2>Questo è un esempio di menù Responsive. </h2>
-        <p>Quando la larghezza dello schermo è sotto i 767px, il menu viene nascosto e ottimizzato per Smartphone e Tablet. Ridimensiona la finestra per vedere il menu in azione.</p>
-        
+            <div id="testo">
+            <h2>Questo è un esempio di menù Responsive. </h2>
+            <p>Quando la larghezza dello schermo è sotto i 767px, il menu viene nascosto e ottimizzato per Smartphone e Tablet. Ridimensiona la finestra per vedere il menu in azione.</p>
+            </div>   
+            <div class="form-group" id ="contenuto">
+            <form style="display:none;" id="aggiornaProfilo" enctype="multipart/form-data" action="./modificaProfilo/modificaProfilo.php" method="POST">
+                <div id="success" name="success" style="display:none;"></div>
+                <div class="container">
+                    <h1 style="font-size:20px; margin-bottom:10px;">Modifica il tuo profilo</h1>
+                    <div id="success" class="alert alert-danger" style="display:none;"></div>
+                <div class="form-group">
+                    <label for="usr">Nome:</label>
+                    <input style="width: 50%;" class="form-control" name="nome" id="nome" value="<?php echo $_SESSION['nome'];?>" required="true">
+                </div>
+                <div class="form-group">
+                    <label for="usr">Cognome:</label>
+                    <input style="width: 50%;" class="form-control" name="cognome" id="cognome" value="<?php echo $_SESSION['cognome'];?>" required="true">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Email:</label>
+                    <input style="width: 50%;" type="email" class="form-control"  name="email" id="email" value="<?php echo $_SESSION['email'];?>" required="true">
+               </div>
+               <div class="form-group">
+                    <label for="pwd">Vecchia password:</label>
+                    <input style="width: 50%;" type="password" class="form-control" name="pwd" id="pwd" required="true">
+               </div>
+                
+                <div class="form-group">
+                    <label for="pwd">Nuova password:</label>
+                    <input style="width: 50%;" type="password" class="form-control" name="pwd2" id="pwd2" required="true">
+               </div>
+                    
+                <div class="form-group">
+                    <label for="pwd">Conferma nuova password:</label>
+                    <input style="width: 50%;" type="password" class="form-control" name="pwd3" id="pwd3" required="true">
+               </div>                   
+                <div class="form-group">
+                    <button id="btn-modifica" type="submit" class="btn btn-info"><i class="icon-hand-right"></i>Modifica</button> 
+                </div>
+                </div>
+    </form>
+            </div>
 	</div> <!-- #main -->
 
 </div> <!-- #wrapper -->
-
     </body>
 </html>
