@@ -24,7 +24,7 @@ if($admin == 0){
     $num = $risultato->rowCount();
 }else{
     if($admin == 1){
-        $query="SELECT * FROM Admins WHERE IDAdmin = '$idadmin' AND email = '$email' AND pwd = '$password'";
+        $query="SELECT * FROM Admins WHERE IDAdmin = '$idadmin' AND email = '$email' AND pwd = MD5('".$password."')";
         $risultato = $connessione->query($query);
         $num = $risultato->rowCount();
     }

@@ -14,7 +14,17 @@ $nuovaPassword2 = filtra($_POST['pwd3']);
 $message = "";
 $message2 = "";
 
-$query="SELECT * FROM utenti WHERE IDUtente = ".$_SESSION['IDUtente']." AND pwd = MD5('".$vecchiaPassword."')";
+$table = "utenti";
+$id_table = "IDUtente";
+if(isset($_SESSION['id'])){
+    $table = "admins";
+    $id_table = "IDAdmin";
+    $session_id = $_SESSION['id'];
+}else{
+    $session_id = $_SESSION['IDUtente'];
+}
+
+$query="SELECT * FROM $table WHERE $id_table = $session_id AND pwd = MD5('".$vecchiaPassword."')";
 $risultato = $connessione->query($query);
 $num = $risultato->rowCount();
 if($num == 0){
@@ -23,12 +33,8 @@ if($num == 0){
 if(strcmp($nuovaPassword,$nuovaPassword2)){
     $message2 = $message2."Le due password non sono uguali.";
 }
-//echo $message;
-//echo $message2;
-
 
 if(strcmp($message, "") || strcmp($message2, "")){
-   //echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> '.$message.'<br>'.$message2.'</div>';
    echo '<div class="alert alert-danger" role="alert">';
    if(strcmp($message, "")){
            echo '<span class="glyphicon glyphicon-remove"></span> '.$message.'<br>';       
@@ -38,7 +44,7 @@ if(strcmp($message, "") || strcmp($message2, "")){
    }
    echo '</div>';
 }else{
-    $query2 = "UPDATE utenti SET nome = '".$nuovoNome."', cognome = '".$nuovoCognome."',email = '".$nuovaEmail."',pwd = MD5('".$nuovaPassword."') WHERE IDUtente = ".$_SESSION['IDUtente'];
+    $query2 = "UPDATE $table SET nome = '".$nuovoNome."', cognome = '".$nuovoCognome."',email = '".$nuovaEmail."',pwd = MD5('".$nuovaPassword."') WHERE $id_table = $session_id";
     $connessione->exec($query2);
     $num2 = $risultato->rowCount();
     

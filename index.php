@@ -91,7 +91,7 @@ header('Location: accessPage.php');
             <li><a><span class="glyphicon glyphicon-calendar"></span> Eventi disponibili</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
                 <?php }else{?>
-            <li><a href=""><span class="glyphicon glyphicon-user"></span> Il mio profilo</a></li>
+            <li><a id="profilo"><span class="glyphicon glyphicon-user"></span> Pprofilo</a></li>
             <li><a href=""><span class="glyphicon glyphicon-list-alt"></span> Gestisci eventi</a></li>
             <li><a href=""><span class="glyphicon glyphicon-align-justify"></span> Visualizza utenti</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
