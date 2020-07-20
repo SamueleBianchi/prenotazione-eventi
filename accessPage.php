@@ -24,7 +24,7 @@ if(isset($_SESSION['email'])){
       <button type="submit" form="form_subscribe">Registrati</button>
       <p class="message">Sei già registrato? <a href="#">Accedi</a></p>
     </form>
-    <form class="login-form" id="form_access" role="form" method="POST" action="./accesso/accesso.php">
+      <form class="login-form" id="form_access" role="form" method="POST" action="./Classi/accesso.php">
         <h2> Accedi </h2>
       <input name="id" type="text" placeholder="ID ( solo per utente admin )"/>
       <input name="email" type="email" placeholder="Email" required="true"/>

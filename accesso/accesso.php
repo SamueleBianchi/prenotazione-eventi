@@ -7,6 +7,7 @@
  */
 require "../Database/connect.php";
 require dirname(__FILE__).'/../Filtro/filtro.php';  
+
 $admin = 0;
 if(!isset($_POST["id"]) || trim($_POST["id"]) == ''){
 
