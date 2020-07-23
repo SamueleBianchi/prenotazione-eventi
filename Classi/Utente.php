@@ -1,7 +1,7 @@
 <?php
 
 class Utente{
-//    public $IdUtente = "";
+    public $IdUtente = "";
     public $nome = "";
     public $cognome = "";
     public $email = "";
@@ -13,6 +13,10 @@ class Utente{
         $this->cognome = $cognome;
         $this->email = $email;
         $this->password = $password;
+    }
+    
+    public function getId() {
+        return $this->IdUtente;
     }
     
     public function getNome() {
@@ -67,7 +71,7 @@ class Utente{
                 $this->nome = $row['nome'];
                 $this->cognome = $row['cognome'];
                 $this->password = $row['pwd'];
-//                $this->IdUtente = $row['IDUtente'];
+                $this->IdUtente = $row['IDUtente'];
             }
             
             $_SESSION['email'] = $this->getEmail();
@@ -77,7 +81,7 @@ class Utente{
             if($tipo_utente == 1){
                 $_SESSION['id'] = $id_admin;
             }
-            
+            $_SESSION['IDUtente'] = $this->getId();
             $_SESSION['email'] = $this->getEmail();
             header("Location: ../index.php");   
         } else {

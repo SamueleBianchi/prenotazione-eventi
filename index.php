@@ -56,12 +56,24 @@ header('Location: accessPage.php');
                 
                 $("#aggiungi").click(function(){
                         $("#testo").text("");
+                        $("#gestisciEvento").css("display", "none");
                         $("#aggiornaProfilo").css("display","none");
+                        
                        if($(window).width() < 767){
                             $("#mainmenu").toggleClass("show");
                         }
                         $("#aggiungiEvento").css("display","block");
-                });     
+                }); 
+                
+                $("#gestisci").click(function(){
+                        $("#testo").text("");
+                        $("#aggiornaProfilo").css("display","none");
+                        $("#aggiungiEvento").css("display","none");
+                       if($(window).width() < 767){
+                            $("#mainmenu").toggleClass("show");
+                        }
+                        $("#gestisciEvento").css("display","block");
+                }); 
                 
     });
     
@@ -90,6 +102,51 @@ header('Location: accessPage.php');
                         $("#successo").empty(); // show response from the php script.
                         $("#successo").html(data); // show response from the php script.
                         $("#successo").css("display", "block");
+                    }
+                    });
+                    evt.preventDefault(); 
+                 });
+                 
+      $(document).on('submit', 'form#gestisciEvento', function(evt){
+                    $.ajax({
+                    type: "POST",
+                    url: "./gestioneEvento/gestioneEvento.php",
+                    data :{evento: $("#evento").val()},
+                    success: function(data)
+                    {
+                        $("#risultato").empty(); // show response from the php script.
+                        $("#risultato").html(data); // show response from the php script.
+                        $("#risultato").css("display", "block");
+                    }
+                    });
+                    evt.preventDefault(); 
+                 });
+                 
+       $(document).on('click', 'button#modifica_bottone', function(evt){
+                    $.ajax({
+                    type: "POST",
+                    url: "./gestioneEvento/modificaEvento.php",
+                    data :{id_evento: $("#id_evento").val(), denominazione2: $("#denominazione2").val()},
+                    success: function(data)
+                    {
+                        $("#risultato").empty(); // show response from the php script.
+                        $("#risultato").html(data); // show response from the php script.
+                        $("#risultato").css("display", "block");
+                    }
+                    });
+                    evt.preventDefault(); 
+                 });
+                 
+        $(document).on('click', 'button#elimina_bottone', function(evt){
+                    $.ajax({
+                    type: "POST",
+                    url: "./gestioneEvento/eliminaEvento.php",
+                    data :{id_evento: $("#id_evento").val()},
+                    success: function(data)
+                    {
+                        $("#risultato").empty(); // show response from the php script.
+                        $("#risultato").html(data); // show response from the php script.
+                        $("#risultato").css("display", "block");
                     }
                     });
                     evt.preventDefault(); 
@@ -126,7 +183,7 @@ header('Location: accessPage.php');
                 <?php }else{?>
             <li><a id="profilo"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
             <li><a id="aggiungi"><span class="glyphicon glyphicon-plus"></span> Aggiungi evento</a></li>
-            <li><a href=""><span class="glyphicon glyphicon-list-alt"></span> Gestisci eventi</a></li>
+            <li><a id="gestisci"><span class="glyphicon glyphicon-list-alt"></span> Gestisci eventi</a></li>
             <li><a href=""><span class="glyphicon glyphicon-align-justify"></span> Visualizza utenti</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
                 <?php } ?>
@@ -139,7 +196,7 @@ header('Location: accessPage.php');
             <p>Quando la larghezza dello schermo è sotto i 767px, il menu viene nascosto e ottimizzato per Smartphone e Tablet. Ridimensiona la finestra per vedere il menu in azione.</p>
             </div>   
             <div class="form-group" id ="contenuto">
-            <form style="display:none;" id="aggiornaProfilo" enctype="multipart/form-data" action="./modificaProfilo/modificaProfilo.php" method="POST">
+            <form style="display:none;" id="aggiornaProfilo" enctype="multipart/form-data" action="./modificaProfilo/modificaProfiloNew.php" method="POST">
                 <div id="success" name="success" style="display:none;"></div>
                 <div class="container">
                     <h1 style="font-size:20px; margin-bottom:10px;">Modifica il tuo profilo</h1>
@@ -313,6 +370,20 @@ header('Location: accessPage.php');
                 
                 </div>
     </form>
+            </div>
+            
+            <div>
+                <form style="display:none;" name="gestisciEvento" id="gestisciEvento" enctype="multipart/form-data" action="./gestioneEvento/gestioneEvento.php" method="POST">
+                    <h1 style="font-size:20px; margin-bottom:10px;">Cerca un evento</h1>
+                    <div class="form-group">
+                        <label for="recapito">Scrivi l'evento che vuoi ricercare:</label>
+                        <input style="width: 50%;" class="form-control" name="evento" id="evento" required="true">
+                    </div>
+                    <div class="form-group">
+                    <button id="btn-modifica" type="submit" class="btn btn-info"><i class="icon-hand-right"></i>Cerca</button> 
+                </div>
+                    <div id="risultato" name="risultato" style="display:none;"></div>  
+                </form>
             </div>
 	</div> <!-- #main -->
 
