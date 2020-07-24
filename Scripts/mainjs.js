@@ -109,7 +109,12 @@ $(document).ready(function(){
                     $.ajax({
                     type: "POST",
                     url: "./gestioneEvento/modificaEvento.php",
-                    data :{id_evento: $("#id_evento").val(), denominazione2: $("#denominazione2").val()},
+                    data :{id_evento: $("#id_evento").val(), denominazione2: $("#denominazione2").val(), 
+                        città2: $("#città2").val(),tipologia2: $("#tipologia2").val(), provincia2: $("#provincia2").val(),
+                        via2: $("#via2").val(), datainizio2: $("#datainizio2").val(), descrizione2: $("#descrizione2").val(),
+                        datafine2: $("#datafine2").val(),recapito2: $("#recapito2").val(),
+                        maxiscritti2: $("#maxiscritti2").val(), prezzo2: $("#prezzo2").val(),
+                    sito2: $("#sito2").val()},
                     success: function(data)
                     {
                         $("#risultato").empty(); // show response from the php script.
