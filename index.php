@@ -30,7 +30,7 @@ header('Location: accessPage.php');
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
     <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
     <link rel="stylesheet" href="./stili/style_homepage.css">
-    <script src="./Scripts/mainjs.js" type="text/javascript"></script>
+    
     <title>Events</title>
         
     </head>
@@ -53,9 +53,9 @@ header('Location: accessPage.php');
                 <?php if(!isset($_SESSION['id'])){ ?>
         	<li><a href=""><span class="glyphicon glyphicon-home"></span> Home</a></li>
             <li id="profilo"><a id="profilo"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
-            <li><a><span class="glyphicon glyphicon-qrcode"></span> Scan</a></li>
             <li><a><span class="glyphicon glyphicon-list-alt"></span> I miei eventi</a></li>
-            <li><a><span class="glyphicon glyphicon-calendar"></span> Eventi disponibili</a></li>
+            <li><a><span class="glyphicon glyphicon-qrcode"></span> Scan</a></li>
+            <li id="ricerca"><a id="ricerca"><span class="glyphicon glyphicon-search"></span> Ricerca Evento</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
                 <?php }else{?>
             <li id="profilo"><a id="profilo"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
@@ -74,5 +74,6 @@ header('Location: accessPage.php');
 	</div> <!-- #main -->
 
 </div> <!-- #wrapper -->
+        <script src="./Scripts/mainjs.js" type="text/javascript"></script>
     </body>
 </html>

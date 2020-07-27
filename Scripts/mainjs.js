@@ -34,6 +34,13 @@ $(document).ready(function(){
                         }
                         $('#main').load("./gestioneEvento/formGestioneEvento.php");
                         break;
+                    case "ricerca":
+                        $('#main').empty();
+                        if($(window).width() < 767){
+                            $("#mainmenu").toggleClass("show");
+                        }
+                        $('#main').load("./eventi/formCercaEvento.php");
+                        break;
                 }
                 });
                 
@@ -130,6 +137,21 @@ $(document).ready(function(){
                     type: "POST",
                     url: "./gestioneEvento/eliminaEvento.php",
                     data :{id_evento: $("#id_evento").val()},
+                    success: function(data)
+                    {
+                        $("#risultato").empty(); // show response from the php script.
+                        $("#risultato").html(data); // show response from the php script.
+                        $("#risultato").css("display", "block");
+                    }
+                    });
+                    evt.preventDefault(); 
+                 });
+                 
+        $(document).on('click', 'button#cerca_evento', function(evt){
+                    $.ajax({
+                    type: "POST",
+                    url: "./eventi/cercaEvento.php",
+                    data :{evento: $("#evento").val()},
                     success: function(data)
                     {
                         $("#risultato").empty(); // show response from the php script.
