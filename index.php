@@ -54,13 +54,13 @@ header('Location: accessPage.php');
         	<li><a href=""><span class="glyphicon glyphicon-home"></span> Home</a></li>
             <li id="profilo"><a id="profilo"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
             <li><a><span class="glyphicon glyphicon-list-alt"></span> I miei eventi</a></li>
-            <li><a><span class="glyphicon glyphicon-qrcode"></span> Scan</a></li>
+            <li id="scan"><a><span class="glyphicon glyphicon-qrcode"></span> Scan</a></li>
             <li id="ricerca"><a id="ricerca"><span class="glyphicon glyphicon-search"></span> Ricerca Evento</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
                 <?php }else{?>
             <li id="profilo"><a id="profilo"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
             <li id="aggiungi"><a id="aggiungi"><span class="glyphicon glyphicon-plus"></span> Aggiungi evento</a></li>
-            <li id="gestisci"><a id="gestisci"><span class="glyphicon glyphicon-list-alt"></span> Gestisci eventi</a></li>
+            <li id="gestisci"><a id="gestisci"><span class="glyphicon glyphicon-cog"></span> Gestisci eventi</a></li>
             <li><a href=""><span class="glyphicon glyphicon-align-justify"></span> Visualizza utenti</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
                 <?php } ?>
@@ -72,8 +72,39 @@ header('Location: accessPage.php');
             <p>Quando la larghezza dello schermo è sotto i 767px, il menu viene nascosto e ottimizzato per Smartphone e Tablet. Ridimensiona la finestra per vedere il menu in azione.</p>
             </div>   
 	</div> <!-- #main -->
-
-</div> <!-- #wrapper -->
+        <div id="main2" style="display: none">
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3">
+			</div>
+			
+			<div class="col">
+				<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+				<h1><a>Scannerizza</a></h1>
+				<div class="col-sm-12">
+					<video id="preview" class="p-1 border" style="width:100%;"></video>
+				</div>
+                                <script type="text/javascript">
+					
+				</script>
+				<div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+				  <label class="btn btn-primary active">
+					<input type="radio" name="options" value="1" autocomplete="off" checked> Front Camera
+				  </label>
+				  <label class="btn btn-secondary">
+					<input type="radio" name="options" value="2" autocomplete="off"> Back Camera
+				  </label>
+				</div>
+			</div>
+			
+			
+			<div class="col-sm-3">
+			</div>
+		
+		</div>
+	</div>
+        </div>   
         <script src="./Scripts/mainjs.js" type="text/javascript"></script>
     </body>
 </html>

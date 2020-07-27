@@ -123,8 +123,8 @@ if($num == 0){
         </div>
         
         <div class="form-group">
-                    <button name="modifica_bottone" id="modifica_bottone" type="submit" class="btn btn-primary"><i class="icon-hand-right"></i>Modifica</button> 
-                    <button name="modifica_bottone" id="elimina_bottone" type="submit" class="btn btn-danger"><i class="icon-hand-right"></i>Elimina</button> 
+                    <button name="modifica_bottone" id="modifica_bottone" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span><i class="icon-hand-right"></i> Modifica</button> 
+                    <button name="modifica_bottone" id="elimina_bottone" type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span><i class="icon-hand-right"></i> Elimina</button> 
         </div>
     </div>
     </form>

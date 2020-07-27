@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 5, mirror: false });
+
 $(document).ready(function(){   
-    
+                 
 		//When btn is clicked
 		$(".btn-responsive-menu").click(function() {
 			$("#mainmenu").toggleClass("show");
@@ -14,6 +16,7 @@ $(document).ready(function(){
                 $('li').click(function(){   
                 switch($(this).attr("id")){
                     case "profilo":
+                        scanner.stop();
                         $('#main').empty();
                         if($(window).width() < 767){
                             $("#mainmenu").toggleClass("show");
@@ -35,11 +38,54 @@ $(document).ready(function(){
                         $('#main').load("./gestioneEvento/formGestioneEvento.php");
                         break;
                     case "ricerca":
+                        if(scanner !== null){
+                            scanner.stop();
+                        }
                         $('#main').empty();
+                        $('#main2').css("display", "none");
                         if($(window).width() < 767){
                             $("#mainmenu").toggleClass("show");
                         }
                         $('#main').load("./eventi/formCercaEvento.php");
+                        break;
+                    case "scan":
+                        $('#main').empty();
+                        if($(window).width() < 767){
+                            $("#mainmenu").toggleClass("show");
+                        }
+                        $('#main2').css("display", "block");
+					scanner.addListener('scan',function(content){
+						alert(content);
+					});
+                                        $('li').click(function(){
+                                            scanner.stop();
+                                        });
+					Instascan.Camera.getCameras().then(function (cameras){
+						if(cameras.length>0){
+							scanner.start(cameras[0]);
+							$('[name="options"]').on('change',function(){
+								if($(this).val()==1){
+									if(cameras[1]!=""){
+										scanner.start(cameras[0]);
+									}else{
+										alert('Nessuna fotocamera frontale trovata!');
+									}
+								}else if($(this).val()==2){
+									if(cameras[0]!=""){
+										scanner.start(cameras[1]);
+									}else{
+										alert('Nessuna fotocamera posteriore trovata!');
+									}
+								}
+							});
+						}else{
+							console.error('Nessuna fotocamera trovata.');
+							alert('Nessuna fotocamera trovata.');
+						}
+					}).catch(function(e){
+						console.error(e);
+						alert(e);
+					});
                         break;
                 }
                 });
