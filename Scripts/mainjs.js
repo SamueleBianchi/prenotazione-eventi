@@ -26,6 +26,7 @@ $(document).ready(function(){
                     case "profilo":
                         scanner.stop();
                         $('#main').empty();
+                        $('#main2').css("display", "none");
                         if($(window).width() < 767){
                             $("#mainmenu").toggleClass("show");
                         }
