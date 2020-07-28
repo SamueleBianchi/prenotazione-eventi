@@ -76,18 +76,16 @@ header('Location: accessPage.php');
             <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-3">
-			</div>
 			
-			<div class="col">
+			<div class="col" style="text-align: center;">
 				<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-				<h1><a>Scannerizza</a></h1>
-				<div class="col-sm-12">
-					<video id="preview" class="p-1 border" style="width:100%;"></video>
+                                <h1 style="font-size: 20px;">Scannerizza</h1><br>
+				<div class="col-sm-12" style="text-align: center;">
+					<video id="preview" class="p-1 border" style="width:70%; text-align: center;"></video>
 				</div>
                                 <script type="text/javascript">
 					
-				</script>
+                                </script><br>
 				<div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
 				  <label class="btn btn-primary active">
 					<input type="radio" name="options" value="1" autocomplete="off" checked> Front Camera

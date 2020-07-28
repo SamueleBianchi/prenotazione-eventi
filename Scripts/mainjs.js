@@ -5,6 +5,14 @@
  */
 var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 5, mirror: false });
 
+function prenotazione(content){
+        $.get("./eventi/prenotazione.php?"+content, function(data, status){
+            $('#main2').css("display", "none"); // show response from the php script.
+            scanner.stop();
+            $("#main").html(data); // show response from the php script.
+        });
+    }
+    
 $(document).ready(function(){   
                  
 		//When btn is clicked
@@ -55,7 +63,7 @@ $(document).ready(function(){
                         }
                         $('#main2').css("display", "block");
 					scanner.addListener('scan',function(content){
-						alert(content);
+                                                prenotazione(content);
 					});
                                         $('li').click(function(){
                                             scanner.stop();
@@ -88,30 +96,10 @@ $(document).ready(function(){
 					});
                         break;
                 }
-                });
-                
-//                $("#aggiungi").click(function(){
-//                        $("#testo").text("");
-//                        $("#gestisciEvento").css("display", "none");
-//                        $("#aggiornaProfilo").css("display","none");
-//                        
-//                       if($(window).width() < 767){
-//                            $("#mainmenu").toggleClass("show");
-//                        }
-//                        $("#aggiungiEvento").css("display","block");
-//                }); 
-//                
-//                $("#gestisci").click(function(){
-//                        $("#testo").text("");
-//                        $("#aggiornaProfilo").css("display","none");
-//                        $("#aggiungiEvento").css("display","none");
-//                       if($(window).width() < 767){
-//                            $("#mainmenu").toggleClass("show");
-//                        }
-//                        $("#gestisciEvento").css("display","block");
-//                }); 
-                
+                });                
     });
+    
+    
     
     $(document).on('submit', 'form#aggiornaProfilo', function(evt){
                     $.ajax({

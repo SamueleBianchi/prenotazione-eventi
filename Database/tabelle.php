@@ -17,3 +17,14 @@ $crea_tb = $connessione->exec("CREATE TABLE IF NOT EXISTS Eventi (
     recapito varchar(16) NOT NULL,    
     PRIMARY KEY (IDEvento)
   )");
+
+$crea_tb = $connessione->exec("CREATE TABLE IF NOT EXISTS Prenotazioni (
+    IDPrenotazioni int(10) NOT NULL AUTO_INCREMENT,
+    CodEvento int(10) NOT NULL ,
+    CodUtente int(10) NOT NULL,
+    numero_iscr int(10) NOT NULL,
+    data_iscr varchar(32) NOT NULL,
+    PRIMARY KEY (IDPrenotazioni),
+    FOREIGN KEY (CodUtente) REFERENCES Utenti(IDUtente),
+    FOREIGN KEY (CodEvento) REFERENCES Eventi(IDEvento)
+  )");
