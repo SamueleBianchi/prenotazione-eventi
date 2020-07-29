@@ -14,28 +14,28 @@ if(isset($_SESSION['email'])){
     </head>
     <body>
        <div class="login-page">
-  <div class="form">
-      <form class="register-form" id="form_subscribe" role="form" method="POST" action="./iscrizione/iscrizione.php">
-        <h2> Registrati </h2>
-        <input type="text" name="nome" placeholder="Nome" required="true"/>
-      <input type="text" name="cognome"placeholder="Cognome" required="true"/>
-      <input type="email" name="email" placeholder="Email" required="true"/>
-      <input type="password" name="password" placeholder="Password" required="true"/>
-      <button type="submit" form="form_subscribe">Registrati</button>
-      <p class="message">Sei già registrato? <a href="#">Accedi</a></p>
-    </form>
-      <form class="login-form" id="form_access" role="form" method="POST" action="./accesso/accessoobj.php">
-        <h2> Accedi </h2>
-      <input name="id" type="text" placeholder="ID ( solo per utente admin )"/>
-      <input name="email" type="email" placeholder="Email" required="true"/>
-      <input name="password" type="password" placeholder="Password" required="true"/>
-      <button>Accedi</button>
-      <p class="message">Non hai un account? <a href="#">Registrati</a></p>
-    </form>
-  </div>
-</div>
-    <script>$(".message a").click(function (){ 
+            <div class="form">
+                <form class="register-form" id="form_subscribe" role="form" method="POST" action="./iscrizione/iscrizione.php">
+                    <h2> Registrati </h2>
+                    <input type="text" name="nome" placeholder="Nome" required="true"/>
+                    <input type="text" name="cognome"placeholder="Cognome" required="true"/>
+                    <input type="email" name="email" placeholder="Email" required="true"/>
+                    <input type="password" name="password" placeholder="Password" required="true"/>
+                    <button type="submit" form="form_subscribe">Registrati</button>
+                    <p class="message">Sei già registrato? <a href="#">Accedi</a></p>
+                </form>
+                <form class="login-form" id="form_access" role="form" method="POST" action="./accesso/accesso.php">
+                    <h2> Accedi </h2>
+                    <input name="id" type="text" placeholder="ID ( solo per utente admin )"/>
+                    <input name="email" type="email" placeholder="Email" required="true"/>
+                    <input name="password" type="password" placeholder="Password" required="true"/>
+                    <button>Accedi</button>
+                    <p class="message">Non hai un account? <a href="#">Registrati</a></p>
+                </form>
+            </div>
+        </div>
+        <script>$(".message a").click(function (){ 
             $("form").animate({ height: "toggle", opacity: "toggle" }, "slow");});
-    </script>
+        </script>
     </body>
 </html>

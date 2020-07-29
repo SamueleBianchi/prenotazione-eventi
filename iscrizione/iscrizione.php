@@ -15,7 +15,6 @@ $pwd=filtra($_POST['password']);
 $email=filtra($_POST['email']);
 $IDUtente="";
 
-//echo "Hai inserito $nome $cognome $email $pwd";
 $pwdCript= md5($pwd);
 
 $query=$connessione->prepare("INSERT INTO utenti (IDUtente, nome, cognome, email, pwd) VALUES (:IDUtente, :nome, :cognome, :email, :pwd)");

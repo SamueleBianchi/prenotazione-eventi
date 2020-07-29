@@ -97,7 +97,7 @@ header('Location: accessPage.php');
 	</div>
         </div>
         
-        <script src="./Scripts/mainjs.js" type="text/javascript"></script>
+        <script src="scripts/mainjs.js" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     
