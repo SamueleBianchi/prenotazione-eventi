@@ -1,88 +1,43 @@
 <?php
 
-class Utente{
-    public $IdUtente = "";
-    public $nome = "";
-    public $cognome = "";
-    public $email = "";
-    private $password = "";
+require_once 'UtenteGenerico.php';
 
+class Utente extends UtenteGenerico{
+    
+    private $IdUtente = "";
 
-    public function __construct($nome, $cognome, $email, $password) {
-        $this->nome = $nome;
-        $this->cognome = $cognome;
-        $this->email = $email;
-        $this->password = $password;
+    public function __construct($nome, $cognome, $email, $password, $IdUtente) {
+        parent::__construct($nome, $cognome, $email, $password);
+        $this->IdUtente = $IdUtente;
     }
     
-    public function getId() {
+    public function getIdUtente() {
         return $this->IdUtente;
     }
     
-    public function getNome() {
-        return $this->nome;
+    public function setIdUtente($IdUtente) {
+        $this->IdUtente = $IdUtente;
     }
     
-    public function getCognome() {
-        return $this->cognome;
-    }
-    
-    public function getEmail() {
-        return $this->email;
-    }
-    
-    public function getPassword() {
-        return $this->password;
-    }
-    
-    public function setNome($nome) {
-        $this->nome = $nome;
-    }
-    
-    public function setCognome($cognome) {
-        $this->cognome = $cognome;
-    }
-    
-    public function setEmail($email) {
-        $this->email = $email;
-    }
-    
-    public function setPassword($password) {
-        $this->password = $password;
-    }
-    
-    public function accedi($tipo_utente, $id_admin) {
+    public function accedi() {
         require '../Database/connect.php';
-        if($tipo_utente == 0){
-            $query = "SELECT * FROM utenti WHERE email = '$this->email' AND pwd = MD5('".$this->getPassword()."')";
-            $risultato = $connessione->query($query);
-            $numero_righe = $risultato->rowCount();
-        }else{
-            if($tipo_utente == 1){
-                $query="SELECT * FROM Admins WHERE email = '$this->email' AND pwd = MD5('".$this->password."')";
-                $risultato = $connessione->query($query);
-                $numero_righe = $risultato->rowCount();
-            }
-        }
+        $query = "SELECT * FROM utenti WHERE email = '".$this->getEmail()."' AND pwd = MD5('".$this->getPassword()."')";
+        $risultato = $connessione->query($query);
+        $numero_righe = $risultato->rowCount();
         
         if($numero_righe == 1){
             session_start();
             foreach ($connessione->query($query) as $row) {
-                $this->nome = $row['nome'];
-                $this->cognome = $row['cognome'];
-                $this->password = $row['pwd'];
-                $this->IdUtente = $row['IDUtente'];
+                $this->setNome($row['nome']);
+                $this->setCognome($row['cognome']);
+                $this->setPassword($row['pwd']);
+                $this->setIdUtente($row['IDUtente']);
             }
             
             $_SESSION['email'] = $this->getEmail();
             $_SESSION['nome'] = $this->getNome();
             $_SESSION['cognome'] = $this->getCognome();
-            
-            if($tipo_utente == 1){
-                $_SESSION['id'] = $id_admin;
-            }
-            $_SESSION['IDUtente'] = $this->getId();
-            $_SESSION['email'] = $this->getEmail();
+            $_SESSION['IDUtente'] = $this->getIdUtente();
             header("Location: ../index.php");   
         } else {
             $this->stampa_errore("Email o password errati");
