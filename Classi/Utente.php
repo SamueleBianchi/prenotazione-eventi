@@ -90,6 +90,108 @@ class Utente extends UtenteGenerico{
            echo '</div>';
         }
             }
+            
+       public function cercaEvento(){
+            require_once '../Database/connect.php';
+            require_once dirname(__FILE__).'/../Filtro/filtro.php';
+
+            $nome_evento = filtra($_POST['evento']);
+            $ricerca = "SELECT * FROM eventi WHERE denominazione = '".$nome_evento."'";
+            $risultato = $connessione->query($ricerca);
+            $num = $risultato->rowCount();
+            
+            if($num == 0){
+                echo '<div class="alert alert-danger" role="alert">Errore : non esiste alcun evento denominato '.$nome_evento.'.</div>';
+            }else{
+                while($riga = $risultato->fetch(PDO::FETCH_ASSOC)){
+                    echo '<img src="http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl=id='.$riga['IDEvento'].'">';
+                    echo '<p><h1 style="font-size:20px;">'.$riga['denominazione'].'</h1><br>';
+                    echo '<strong>Nome evento: </strong>'.$riga['denominazione'].'<br>';
+                    echo '<strong>Categoria: </strong>'.$riga['tipologia'].'<br>';
+                    echo '<strong>Data inizio: </strong>'.$riga['data_inizio'].'<br>';
+                    echo '<strong>Data fine: </strong>'.$riga['data_fine'].'<br>';
+                    echo '<strong>Via: </strong>'.$riga['via'].'<br>';
+                    echo '<strong>Provincia: </strong>'.$riga['provincia'].'<br>';
+                    echo '<strong>Iscritti: </strong>'.$riga['iscritti'].'<br>';
+                    echo '<strong>Numero massimo di iscritti: </strong>'.$riga['max_iscritti'].'<br>';
+                    echo '<strong>Prezzo: </strong>'.$riga['prezzo'].'<br>';
+                    echo '<strong>Descrizione: </strong>'.$riga['descrizione'].'<br>';
+                    echo '<strong>Sito di riferimento: </strong><a href="'.$riga['sito'].'">'.$riga['sito'].'</a><br>';
+                    echo '<strong>Recapito: </strong>'.$riga['recapito'].'<br><br>';
+                }
+            }
+       }
+    private function update_iscritti($prossimo_iscritto, $IDEvento, $connessione){
+        $update = "UPDATE Eventi SET iscritti = ".$prossimo_iscritto.' WHERE IDEvento ='.$IDEvento;
+        $connessione->exec($update);
+    }
+
+    private function ricerca_prenotazione($IDEvento, $connessione){
+        $ricerca = "SELECT * FROM prenotazioni WHERE CodEvento = $IDEvento AND CodUtente = ".$_SESSION['IDUtente'];
+        $out = $connessione->query($ricerca);
+        $num = $out->rowCount();
+        if($num != 0){
+            echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Impossibile prenotare: prenotazione già effettuata per questo evento</div>';
+            return 0; 
+        }
+        return 1;
+    }
+
+    private function info_pren($connessione,$IDEvento, $prossimo_iscritto, $data_prenotazione, $riga){
+        require_once '../Database/connect.php';
+        require_once dirname(__FILE__).'/../Filtro/filtro.php';
+        echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok"></span> Prenotazione effettuata con successo <br><br>'
+             . '<strong>Numero prenotazione : </strong>'.$prossimo_iscritto.'/'.$riga['max_iscritti'].'<br>'
+             .'<strong>Data e ora di prenotazione : </strong>'.$data_prenotazione.'<br><br>';
+        $evento = "SELECT * FROM eventi WHERE IDEvento = $IDEvento";
+        $out = $connessione->query($evento);
+        $num = $out->rowCount();
+        if($num != 0){
+            while($riga2 = $out->fetch(PDO::FETCH_ASSOC)){
+            echo '<strong>Nome evento: </strong>'.$riga2['denominazione'].'<br>';
+            echo '<strong>Categoria: </strong>'.$riga2['tipologia'].'<br>';
+            echo '<strong>Data inizio: </strong>'.$riga2['data_inizio'].'<br>';
+            echo '<strong>Data fine: </strong>'.$riga2['data_fine'].'<br>';
+            echo '<strong>Via: </strong>'.$riga2['via'].'<br>';
+            echo '<strong>Provincia: </strong>'.$riga2['provincia'].'<br>';
+            echo '<strong>Prezzo: </strong>'.$riga2['prezzo'].'<br>';
+            echo '<strong>Descrizione: </strong>'.$riga2['descrizione'].'<br>';
+            }
+        }
+        echo '</div>'; 
+    }
+    
+       
+    public function prenota($IDEvento) {
+    require '../Database/connect.php';
+    
+    $iscrizioni = "SELECT max_iscritti, iscritti FROM Eventi WHERE IDEvento = $IDEvento";
+    $risultato = $connessione->query($iscrizioni);
+    $num = $risultato->rowCount();
+    if($num != 1){
+    echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : l\'evento potrebbe non essere più disponibile.</div>';
+    }else{
+    while($riga = $risultato->fetch(PDO::FETCH_ASSOC)){
+        if($riga['iscritti'] == $riga['max_iscritti']){
+             echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Siamo spiacenti: l\'evento non ha più posti disponibili!';
+        }else{
+            if($this->ricerca_prenotazione($IDEvento, $connessione) == 1){
+            $data_prenotazione = date("d/m/Y h:i:s");
+            $prossimo_iscritto = $riga['iscritti']+1;
+            $prenotazione = "INSERT INTO prenotazioni(CodEvento, CodUtente, numero_iscr, data_iscr) VALUES ($IDEvento, ".$_SESSION['IDUtente'].",".$prossimo_iscritto.",'".$data_prenotazione."')";        
+            $out = $connessione->query($prenotazione);
+            $num2 = $out->rowCount();
+                if($num2 == 0){
+                    echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore durante la prenotazione: impossibile prenotare.</div>';
+                }else{
+                    $this->update_iscritti($prossimo_iscritto, $IDEvento, $connessione);
+                    $this->info_pren($connessione, $IDEvento, $prossimo_iscritto, $data_prenotazione, $riga);
+                }
+            }
+        }
+    }
+    }
+    }
 
     
 }
