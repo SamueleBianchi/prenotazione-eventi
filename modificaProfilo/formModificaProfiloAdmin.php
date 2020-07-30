@@ -5,7 +5,7 @@ if(!isset($_SESSION['email'])){
 header('Location: accessPage.php');
 }?> 
 <div class="form-group" id ="contenuto">
-    <form id="aggiornaProfilo" enctype="multipart/form-data" action="./modificaProfilo/modificaProfilo2.php" method="POST">
+    <form id="aggiornaProfiloAdmin" enctype="multipart/form-data" action="./modificaProfilo/modificaProfilo2.php" method="POST">
         <div id="success" name="success" style="display:none;"></div>
         <div class="container">
             <h1 style="font-size:20px; margin-bottom:10px;">Modifica il tuo profilo</h1>

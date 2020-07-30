@@ -47,7 +47,6 @@ if(strcmp($message, "") || strcmp($message2, "")){
     $query2 = "UPDATE $table SET nome = '".$nuovoNome."', cognome = '".$nuovoCognome."',email = '".$nuovaEmail."',pwd = MD5('".$nuovaPassword."') WHERE $id_table = $session_id";
     $connessione->exec($query2);
     $num2 = $risultato->rowCount();
-    
    echo '<div class="alert alert-success" role="alert">';
    echo '<span class="glyphicon glyphicon-ok"></span> Profilo aggiornato con successo';       
    echo '</div>';

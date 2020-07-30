@@ -35,7 +35,7 @@ header('Location: accessPage.php');
     <div id="wrapper">
     <header id="header">
     
-        <h1 id="site-title"><a href="#">Events <?php echo $oggetto->getNome(); ?></a></h1>
+        <h1 id="site-title"><a href="#">Events</a></h1>
         
         <div class="btn-responsive-menu" id="miomenu">
             <span class="icon-bar"></span>
@@ -55,7 +55,7 @@ header('Location: accessPage.php');
             <li id="ricerca"><a id="ricerca"><span class="glyphicon glyphicon-search"></span> Ricerca Evento</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
                 <?php }else{?>
-            <li id="profilo"><a id="profilo"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
+            <li id="profilo2"><a id="profilo2"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
             <li id="aggiungi"><a id="aggiungi"><span class="glyphicon glyphicon-plus"></span> Aggiungi evento</a></li>
             <li id="gestisci"><a id="gestisci"><span class="glyphicon glyphicon-cog"></span> Gestisci eventi</a></li>
             <li><a href=""><span class="glyphicon glyphicon-align-justify"></span> Visualizza utenti</a></li>
@@ -65,7 +65,7 @@ header('Location: accessPage.php');
 	</div> <!-- #mainmenu -->
     
 	<div id="main"><div id="testo">
-            <h2>Questo è un esempio di menù Responsive. </h2>
+            <h1>Bentornato <?php echo $oggetto->getNome(); ?> </h1>
             <p>Quando la larghezza dello schermo è sotto i 767px, il menu viene nascosto e ottimizzato per Smartphone e Tablet. Ridimensiona la finestra per vedere il menu in azione.</p>
             </div>   
 	</div> <!-- #main -->
