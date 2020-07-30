@@ -1,15 +1,10 @@
 <?php
 
-require '../Database/connect.php';
-require dirname(__FILE__).'/../Filtro/filtro.php';
-session_start();
-$IDEvento = "null";
-if(isset($_GET['id'])){
+    require '../Database/connect.php';
+    require dirname(__FILE__).'/../Filtro/filtro.php';
+    session_start();
+
     $IDEvento = $_GET['id'];
-}
-if(!is_numeric($IDEvento)){
-    echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : il QR code inserito non è valido.</div>';
-}else{
     $iscrizioni = "SELECT max_iscritti, iscritti FROM Eventi WHERE IDEvento = $IDEvento";
     $risultato = $connessione->query($iscrizioni);
     $num = $risultato->rowCount();
@@ -36,7 +31,8 @@ if(!is_numeric($IDEvento)){
         }
     }
 }
-}
+
+
 function update_iscritti($prossimo_iscritto, $IDEvento, $connessione){
     $update = "UPDATE Eventi SET iscritti = ".$prossimo_iscritto.' WHERE IDEvento ='.$IDEvento;
     $connessione->exec($update);

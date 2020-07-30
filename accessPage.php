@@ -11,6 +11,7 @@ if(isset($_SESSION['email'])){
         <title>Accesso</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link rel="stylesheet" href="./stili/style_access.css">
+        <link rel="icon" type="image/x-icon" href="./stili/icon.png" />
     </head>
     <body>
        <div class="login-page">

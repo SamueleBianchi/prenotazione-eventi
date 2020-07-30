@@ -18,14 +18,14 @@ header('Location: accessPage.php');
         <meta charset="utf-8" />
     <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Responsive Web Site</title>
+    <title>Events</title>
     <!-- Mobile viewport optimized: j.mp/bplateviewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- JavaScript -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
-    
+    <link rel="icon" type="image/x-icon" href="./stili/icon.png" />
     <link rel="stylesheet" href="./stili/style_homepage.css">
     
     <title>Events</title>
