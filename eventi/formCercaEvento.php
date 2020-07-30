@@ -2,7 +2,7 @@
     <form name="cercaEvento" id="cercaEvento" enctype="multipart/form-data">
         <h1 style="font-size:20px; margin-bottom:10px;">Cerca un evento</h1>
         <div class="form-group">
-            <label for="recapito">Scrivi l'evento che vuoi ricercare:</label>
+            <label for="evento">Scrivi l'evento che vuoi ricercare:</label>
             <input class="form-control" name="evento" id="evento" required="true">
         </div>
         <div class="form-group">

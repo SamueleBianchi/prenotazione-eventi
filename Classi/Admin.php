@@ -168,4 +168,53 @@ class Admin extends UtenteGenerico{
                 echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore durante la modifica dell\'evento : potrebbe essere stato eliminato o la modifica non ha apportato alcun effetto. Riprovare</div>';
             }
                     }
-            }    
+                    
+            public function visualizzaUtenti($evento){
+                require '../Database/connect.php';
+                $ricerca = "SELECT * FROM eventi WHERE denominazione = '".$evento."'";
+                $risultato = $connessione->query($ricerca);
+                $num = $risultato->rowCount();
+                if($num == 0){
+                    echo '<div class="alert alert-danger" role="alert">Errore : non esiste alcun evento denominato '.$evento.'.</div>';
+                }else{
+                    while($riga = $risultato->fetch(PDO::FETCH_ASSOC)){
+                        $query = "SELECT * FROM prenotazioni WHERE CodEvento = '".$riga['IDEvento']."' ORDER BY numero_iscr";
+                        $risultato2 = $connessione->query($query);
+                        $num2 = $risultato2->rowCount();
+                        if($num2 == 0){
+                            echo '<div class="alert alert-danger" role="alert">L\'evento denominato '.$evento.' non ha nessun partecipante.</div>';
+                        }else{
+                             echo '<div class="table-responsive"><table class="table">
+                                    <thead class="table table-bordered table-striped">
+                                      <tr>
+                                        <th>Numero iscrizione</th>
+                                        <th>Nome</th>
+                                        <th>Cognome</th>
+                                        <th>Email</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>';
+                             while($riga2 = $risultato2->fetch(PDO::FETCH_ASSOC)){
+                                 $query3 = "SELECT * FROM utenti WHERE IdUtente = ".$riga2['CodUtente'];
+                                 $risultato3 = $connessione->query($query3);
+                                 $num3 = $risultato3->rowCount();  
+                                 if($num3 == 0){
+                                        echo '<div class="alert alert-danger" role="alert">Errore : non esiste alcun evento denominato '.$evento.'.</div>';
+                                 }else{
+                                     while($riga3 = $risultato3->fetch(PDO::FETCH_ASSOC)){
+                                         echo '<tr><td>'.$riga2['numero_iscr'].'</td>';
+                                         echo '<td>'.$riga3['nome'].'</td>';
+                                         echo '<td>'.$riga3['cognome'].'</td>';
+                                         echo '<td>'.$riga3['email'].'</td></tr>';
+                                     }
+                                 }
+                             }
+                             echo '</tbody></table></div>';
+                        }
+                    }
+                }
+                
+                
+            
+            }
+}    

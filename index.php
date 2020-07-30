@@ -58,7 +58,7 @@ header('Location: accessPage.php');
             <li id="profilo2"><a id="profilo2"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
             <li id="aggiungi"><a id="aggiungi"><span class="glyphicon glyphicon-plus"></span> Aggiungi evento</a></li>
             <li id="gestisci"><a id="gestisci"><span class="glyphicon glyphicon-cog"></span> Gestisci eventi</a></li>
-            <li><a href=""><span class="glyphicon glyphicon-align-justify"></span> Visualizza utenti</a></li>
+            <li id="partecipanti"><a id="partecipanti"><span class="glyphicon glyphicon-align-justify"></span> Visualizza utenti</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
                 <?php } ?>
         </ul> 

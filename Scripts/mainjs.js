@@ -72,6 +72,17 @@ $(document).ready(function(){
                         }
                         $('#main').load("./eventi/formCercaEvento.php");
                         break;
+                    case "partecipanti":
+                        if(scanner !== null){
+                            scanner.stop();
+                        }
+                        $('#main').empty();
+                        $('#main2').css("display", "none");
+                        if($(window).width() < 767){
+                            $("#mainmenu").toggleClass("show");
+                        }
+                        $('#main').load("./gestioneEvento/formVisualizzaPart.php");
+                        break;
                     case "scan":
                         $('#main').empty();
                         if($(window).width() < 767){
@@ -137,6 +148,21 @@ $(document).ready(function(){
                     type: "POST",
                     url: "./modificaProfilo/modificaProfiloAdmin.php",
                     data :{nome: $("#nome").val(),cognome: $("#cognome").val(),email: $("#email").val(),pwd: $("#pwd").val(), pwd2: $("#pwd2").val(), pwd3: $("#pwd3").val()},
+                    success: function(data)
+                    {
+                        $("#success").empty(); // show response from the php script.
+                        $("#success").html(data); // show response from the php script.
+                        $("#success").css("display", "block");
+                    }
+                    });
+                    evt.preventDefault(); 
+                 });
+                 
+    $(document).on('submit', 'form#vis_partecipanti', function(evt){
+                    $.ajax({
+                    type: "POST",
+                    url: "./gestioneEvento/visualizzaUtenti.php",
+                    data :{evento: $("#evento").val()},
                     success: function(data)
                     {
                         $("#success").empty(); // show response from the php script.
