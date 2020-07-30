@@ -3,14 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/index.php</file>
-            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/Database/tabelle.php</file>
+            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/Classi/Utente.php</file>
+            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/Classi/Admin.php</file>
+            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/eventi/prenotazione.php</file>
             <file>file:/C:/xampp/htdocs/ProgettoIngegneria/accesso/accesso.php</file>
-            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/modificaProfilo/modificaProfilo.php</file>
-            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/classi/Utente.php</file>
-            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/classi/Admin.php</file>
-            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/accessPage.php</file>
-            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/newEmptyPHP.php</file>
+            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/modificaProfilo/modificaProfiloUtente.php</file>
+            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/Scripts/mainjs.js</file>
+            <file>file:/C:/xampp/htdocs/ProgettoIngegneria/eventi/cercaEvento.php</file>
         </group>
     </open-files>
 </project-private>

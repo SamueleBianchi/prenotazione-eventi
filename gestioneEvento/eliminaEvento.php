@@ -5,16 +5,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require '../Database/connect.php';
-require dirname(__FILE__).'/../Filtro/filtro.php';
+require_once '../Database/connect.php';
+require_once dirname(__FILE__).'/../Filtro/filtro.php';
+include '../Classi/Admin.php';
 
 $IdEvento = filtra($_POST['id_evento']);
-$elimina =  "DELETE FROM eventi WHERE IDEvento = '".$IdEvento."'";
-$num = $connessione->exec($elimina);
-if($num == 1){
-    echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok"></span> Evento eliminato con successo</div>';
-}else{
-    echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore nell\'eliminazione dell\'evento</div>';
-}
+session_start(); 
+$oggetto = unserialize($_SESSION['oggetto']);
+$oggetto->eliminaEvento($IdEvento);
+
+
 
 
