@@ -83,6 +83,24 @@ $(document).ready(function(){
                         }
                         $('#main').load("./gestioneEvento/formVisualizzaPart.php");
                         break;
+                    case "miei_eventi":
+                        $('#main').empty();
+                        $('#main2').css("display", "none");
+                        if(scanner !== null){
+                            scanner.stop();
+                        }
+                        $.ajax({
+                        type: "POST",
+                        url: "./gestioneEvento/eventiPrenotati.php",
+                        data :{},
+                        success: function(data)
+                        {
+                            $("#main").empty(); // show response from the php script.
+                            $("#main").html(data); // show response from the php script.
+                            $("#main").css("display", "block");
+                        }
+                        });
+                        break;
                     case "scan":
                         $('#main').empty();
                         if($(window).width() < 767){
@@ -138,6 +156,20 @@ $(document).ready(function(){
                         $("#success").empty(); // show response from the php script.
                         $("#success").html(data); // show response from the php script.
                         $("#success").css("display", "block");
+                    }
+                    });
+                    evt.preventDefault(); 
+                 });
+                 
+     $(document).on('submit', 'form#evento_pren', function(evt){
+                    $.ajax({
+                    type: "POST",
+                    url: "./gestioneEvento/annullaPrenotazione.php",
+                    data :{denominazione: $("#denominazione").val(),IdEvento: $("#IdEvento").val()},
+                    success: function(data)
+                    {
+                        $("#main").empty(); // show response from the php script.
+                        $("#main").html(data); // show response from the php script.
                     }
                     });
                     evt.preventDefault(); 

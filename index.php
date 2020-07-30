@@ -50,7 +50,7 @@ header('Location: accessPage.php');
                 <?php if(!isset($_SESSION['id'])){ ?>
         	<li><a href=""><span class="glyphicon glyphicon-home"></span> Home</a></li>
             <li id="profilo"><a id="profilo"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
-            <li><a><span class="glyphicon glyphicon-list-alt"></span> I miei eventi</a></li>
+            <li id="miei_eventi"><a><span class="glyphicon glyphicon-list-alt"></span> I miei eventi</a></li>
             <li id="scan"><a><span class="glyphicon glyphicon-qrcode"></span> Scan</a></li>
             <li id="ricerca"><a id="ricerca"><span class="glyphicon glyphicon-search"></span> Ricerca Evento</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
@@ -69,6 +69,7 @@ header('Location: accessPage.php');
             <p>Quando la larghezza dello schermo è sotto i 767px, il menu viene nascosto e ottimizzato per Smartphone e Tablet. Ridimensiona la finestra per vedere il menu in azione.</p>
             </div>   
 	</div> <!-- #main -->
+        
         <div id="main2" style="display: none">
             <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <div class="container-fluid">
