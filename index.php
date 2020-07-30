@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <?php 
+include './classi/Utente.php';
+include './classi/Admin.php';
+
 $_SERVER['PHP_SELF'];
 session_start(); 
+$oggetto = unserialize($_SESSION['oggetto']);
 if(!isset($_SESSION['email'])){
 header('Location: accessPage.php');
 }?>
@@ -31,7 +35,7 @@ header('Location: accessPage.php');
     <div id="wrapper">
     <header id="header">
     
-        <h1 id="site-title"><a href="#">Events</a></h1>
+        <h1 id="site-title"><a href="#">Events <?php echo $oggetto->getNome(); ?></a></h1>
         
         <div class="btn-responsive-menu" id="miomenu">
             <span class="icon-bar"></span>

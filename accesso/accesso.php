@@ -18,9 +18,13 @@ $password_form=filtra($_POST["password"]);
 $utente = null;
 
 if($is_admin == 0){
+    session_start();
     $utente = new Utente("", "", $email_form, $password_form, "");
+    //$_SESSION['oggetto'] = serialize($utente);
 }else{
+    session_start();
     $utente = new Admin("", "", $email_form, $password_form, $id_admin);
+    //$_SESSION['oggetto'] = serialize($utente);
 }
 $utente->accedi();
 

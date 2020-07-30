@@ -3,14 +3,19 @@
 require '../Database/connect.php';
 require dirname(__FILE__).'/../Filtro/filtro.php';
 session_start();
-
-$IDEvento = $_GET['id'];
-$iscrizioni = "SELECT max_iscritti, iscritti FROM Eventi WHERE IDEvento = $IDEvento";
-$risultato = $connessione->query($iscrizioni);
-$num = $risultato->rowCount();
-if($num != 1){
-    echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : l\'evento potrebbe non essere più disponibile</div>';
+$IDEvento = "null";
+if(isset($_GET['id'])){
+    $IDEvento = $_GET['id'];
+}
+if(!is_numeric($IDEvento)){
+    echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : il QR code inserito non è valido.</div>';
 }else{
+    $iscrizioni = "SELECT max_iscritti, iscritti FROM Eventi WHERE IDEvento = $IDEvento";
+    $risultato = $connessione->query($iscrizioni);
+    $num = $risultato->rowCount();
+    if($num != 1){
+    echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : l\'evento potrebbe non essere più disponibile.</div>';
+    }else{
     while($riga = $risultato->fetch(PDO::FETCH_ASSOC)){
         if($riga['iscritti'] == $riga['max_iscritti']){
              echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Siamo spiacenti: l\'evento non ha più posti disponibili!';
@@ -30,6 +35,7 @@ if($num != 1){
             }
         }
     }
+}
 }
 function update_iscritti($prossimo_iscritto, $IDEvento, $connessione){
     $update = "UPDATE Eventi SET iscritti = ".$prossimo_iscritto.' WHERE IDEvento ='.$IDEvento;
