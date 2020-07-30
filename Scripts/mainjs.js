@@ -6,11 +6,17 @@
 var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 5, mirror: false });
 
 function prenotazione(content){
+    if(content.startsWith("id=")){
         $.get("./eventi/prenotazione.php?"+content, function(data, status){
             $('#main2').css("display", "none"); // show response from the php script.
             scanner.stop();
             $("#main").html(data); // show response from the php script.
         });
+    }else{
+            $('#main2').css("display", "none"); // show response from the php script.
+            scanner.stop();
+            $("#main").html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : QR code non valido.</div>'); // show response from the php script.
+    }
     }
     
 $(document).ready(function(){   
@@ -31,6 +37,15 @@ $(document).ready(function(){
                             $("#mainmenu").toggleClass("show");
                         }
                         $('#main').load("./modificaProfilo/formModificaProfilo.php");
+                        break;
+                    case "profilo2":
+                        scanner.stop();
+                        $('#main').empty();
+                        $('#main2').css("display", "none");
+                        if($(window).width() < 767){
+                            $("#mainmenu").toggleClass("show");
+                        }
+                        $('#main').load("./modificaProfilo/formModificaProfiloAdmin.php");
                         break;
                     case "aggiungi":
                         $('#main').empty();
@@ -105,7 +120,22 @@ $(document).ready(function(){
     $(document).on('submit', 'form#aggiornaProfilo', function(evt){
                     $.ajax({
                     type: "POST",
-                    url: "./modificaProfilo/modificaProfilo.php",
+                    url: "./modificaProfilo/modificaProfiloUtente.php",
+                    data :{nome: $("#nome").val(),cognome: $("#cognome").val(),email: $("#email").val(),pwd: $("#pwd").val(), pwd2: $("#pwd2").val(), pwd3: $("#pwd3").val()},
+                    success: function(data)
+                    {
+                        $("#success").empty(); // show response from the php script.
+                        $("#success").html(data); // show response from the php script.
+                        $("#success").css("display", "block");
+                    }
+                    });
+                    evt.preventDefault(); 
+                 });
+                 
+    $(document).on('submit', 'form#aggiornaProfiloAdmin', function(evt){
+                    $.ajax({
+                    type: "POST",
+                    url: "./modificaProfilo/modificaProfiloAdmin.php",
                     data :{nome: $("#nome").val(),cognome: $("#cognome").val(),email: $("#email").val(),pwd: $("#pwd").val(), pwd2: $("#pwd2").val(), pwd3: $("#pwd3").val()},
                     success: function(data)
                     {

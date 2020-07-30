@@ -2,8 +2,8 @@
 
 require_once "../Database/connect.php";
 require dirname(__FILE__).'/../Filtro/filtro.php'; 
-require_once '../classi/Utente.php';
-require_once '../classi/Admin.php';
+require_once '../Classi/Utente.php';
+require_once '../Classi/Admin.php';
 
 $is_admin = 0;
 if(!isset($_POST["id"]) || trim($_POST["id"]) == ''){

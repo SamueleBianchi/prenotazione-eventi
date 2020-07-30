@@ -19,9 +19,11 @@ class Admin extends UtenteGenerico{
         $this->IdAdmin = $IdAdmin;
     }
     
-     public function accedi() {
-        require '../Database/connect.php';
-        $query="SELECT * FROM Admins WHERE email = '".$this->getEmail()."' AND pwd = MD5('".$this->getPassword()."')";
+    public function accedi() {
+        require_once '../Database/connect.php';
+        require_once dirname(__FILE__).'/../Filtro/filtro.php';
+        
+        $query="SELECT * FROM Admins WHERE IDAdmin = ".$this->getIdAdmin()." AND email = '".$this->getEmail()."' AND pwd = MD5('".$this->getPassword()."')";
         $risultato = $connessione->query($query);
         $numero_righe = $risultato->rowCount();       
         if($numero_righe == 1){
@@ -37,33 +39,56 @@ class Admin extends UtenteGenerico{
             $_SESSION['nome'] = $this->getNome();
             $_SESSION['cognome'] = $this->getCognome();
             $_SESSION['id'] = $this->getIdAdmin();
+            $_SESSION['oggetto'] = serialize($this);
             header("Location: ../index.php");   
         } else {
             $this->stampa_errore("Email o password errati");
         }
     }
     
-    private function stampa_errore($messaggio){
-        echo '<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Accesso</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="../stili/style_access.css">
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-    </head>
-    <body>
-      <div class="login-page">
-      <div class="form-subscribe" id="signupsuccess" style="margin-top:50px;font-family: "Poppins", sans-serif;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">            
+    public function modificaProfilo(){
+        require_once '../Database/connect.php';
+        require_once dirname(__FILE__).'/../Filtro/filtro.php';
+        
+        $nuovoNome = filtra($_POST['nome']);
+        $nuovoCognome = filtra($_POST['cognome']);
+        $nuovaEmail = filtra($_POST['email']);
+        $vecchiaPassword = filtra($_POST['pwd']);
+        $nuovaPassword = filtra($_POST['pwd2']);
+        $nuovaPassword2 = filtra($_POST['pwd3']);
 
-                    <div style="padding-top:30px" class="panel-body">
-                        <div class="alert alert-danger" role="alert">
-                        '.$messaggio.'<br>
-                        </div>
-                        <a href="../accessPage.php">Ritorna alla pagina di login</a>
-                        </div>  
-                    </div>
-    </body>
-    </html>';
-    }
+        $message = "";
+        $message2 = "";
+        $session_id = $_SESSION['id'];
+        
+        $query="SELECT * FROM admins WHERE IDAdmin = $session_id AND pwd = MD5('".$vecchiaPassword."')";
+        $risultato = $connessione->query($query);
+        $num = $risultato->rowCount();
+        if($num == 0){
+            $message = $message."La password attuale inserita non è corretta.";
+        }
+        if(strcmp($nuovaPassword,$nuovaPassword2)){
+            $message2 = $message2."Le due password non sono uguali.";
+        }
+
+        if(strcmp($message, "") || strcmp($message2, "")){
+           echo '<div class="alert alert-danger" role="alert">';
+           if(strcmp($message, "")){
+                   echo '<span class="glyphicon glyphicon-remove"></span> '.$message.'<br>';       
+           }
+           if(strcmp($message2, "")){
+                   echo '<span class="glyphicon glyphicon-remove"></span> '.$message2;       
+           }
+           echo '</div>';
+        }else{
+            $query2 = "UPDATE admins SET nome = '".$nuovoNome."', cognome = '".$nuovoCognome."',email = '".$nuovaEmail."',pwd = MD5('".$nuovaPassword."') WHERE IDAdmin = $session_id";
+            $connessione->exec($query2);
+            $_SESSION['nome']= $nuovoNome;
+            $_SESSION['cognome']=$nuovoCognome;
+            $_SESSION['email']=$nuovaEmail;
+           echo '<div class="alert alert-success" role="alert">';
+           echo '<span class="glyphicon glyphicon-ok"></span> Profilo aggiornato con successo';       
+           echo '</div>';
+        }
+            }
 }    

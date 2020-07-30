@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php 
-include './classi/Utente.php';
-include './classi/Admin.php';
+include './Classi/Utente.php';
+include './Classi/Admin.php';
 
 $_SERVER['PHP_SELF'];
 session_start(); 
@@ -101,7 +101,7 @@ header('Location: accessPage.php');
 	</div>
         </div>
         
-        <script src="scripts/mainjs.js" type="text/javascript"></script>
+        <script src="Scripts/mainjs.js" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     
