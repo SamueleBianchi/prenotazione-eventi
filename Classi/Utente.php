@@ -192,7 +192,6 @@ class Utente extends UtenteGenerico{
 
     public function getEventiPrenotati(){
         require '../Database/connect.php';
-        //$iscrizioni = "SELECT * FROM ((eventi, prenotazioni INNER JOIN Utenti ON utenti.IDUtente = prenotazioni.CodUtente) INNER JOIN eventi ON eventi.IDEvento = prenotazioni.CodPrenotazione ) WHERE utenti.IDUtente = ".$this->getIdUtente();;
         $query = "SELECT * FROM eventi, prenotazioni, utenti WHERE utenti.IDUtente = ".$this->getIdUtente()." AND utenti.IDUtente = prenotazioni.CodUtente AND eventi.IDEvento = prenotazioni.CodEvento";
         $risultato = $connessione->query($query);
         $num = $risultato->rowCount();
@@ -213,7 +212,7 @@ class Utente extends UtenteGenerico{
                 echo '<strong>Data e ora di iscrizione: </strong>'.$riga['data_iscr'].'<br>';
                 echo '<strong>Numero iscrizione: </strong>'.$riga['numero_iscr'].'<br><br>'
                         . '<div class="form-group" style="text-align: center;">
-                            <button  id="annulla_pren" type="submit" name="annulla_pren" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annulla prenotazione</button> 
+                            <button id="annulla_pren" type="submit" name="annulla_pren" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annulla prenotazione</button> 
                             </form></div>';
             }
         }

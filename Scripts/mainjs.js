@@ -7,7 +7,6 @@ var scanner = new Instascan.Scanner({ video: document.getElementById('preview'),
 
 $(document).ready(function(){   
                  
-		//When btn is clicked
 		$(".btn-responsive-menu").click(function() {
 			$("#mainmenu").toggleClass("show");
 		
@@ -85,8 +84,8 @@ $(document).ready(function(){
                         data :{},
                         success: function(data)
                         {
-                            $("#main").empty(); // show response from the php script.
-                            $("#main").html(data); // show response from the php script.
+                            $("#main").empty(); 
+                            $("#main").html(data); 
                             $("#main").css("display", "block");
                         }
                         });
@@ -138,15 +137,15 @@ $(document).ready(function(){
     function prenotazione(content){
     if(content.startsWith("id=")){
         $.get("./eventi/prenotazione.php?"+content, function(data, status){
-            $('#main2').css("display", "none"); // show response from the php script.
+            $('#main2').css("display", "none"); 
             scanner.stop();
-            $("#main").html(data); // show response from the php script.
+            $("#main").html(data); 
         });
     }else{
-            $('#main2').css("display", "none"); // show response from the php script.
+            $('#main2').css("display", "none"); 
             scanner.stop();
             $("#main").html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : QR code non valido.</div>'); // show response from the php script.
-    }
+        }
     }
     
     $(document).on('submit', 'form#aggiornaProfilo', function(evt){
@@ -156,8 +155,8 @@ $(document).ready(function(){
                     data :{nome: $("#nome").val(),cognome: $("#cognome").val(),email: $("#email").val(),pwd: $("#pwd").val(), pwd2: $("#pwd2").val(), pwd3: $("#pwd3").val()},
                     success: function(data)
                     {
-                        $("#success").empty(); // show response from the php script.
-                        $("#success").html(data); // show response from the php script.
+                        $("#success").empty(); 
+                        $("#success").html(data); 
                         $("#success").css("display", "block");
                     }
                     });
@@ -165,14 +164,15 @@ $(document).ready(function(){
                  });
                  
      $(document).on('submit', 'form#evento_pren', function(evt){
+                    var form = $(this);
                     $.ajax({
                     type: "POST",
                     url: "./gestioneEvento/annullaPrenotazione.php",
-                    data :{denominazione: $("#denominazione").val(),IdEvento: $("#IdEvento").val()},
+                    data: $(form).serialize(),
                     success: function(data)
                     {
-                        $("#main").empty(); // show response from the php script.
-                        $("#main").html(data); // show response from the php script.
+                        $("#main").empty(); 
+                        $("#main").html(data); 
                     }
                     });
                     evt.preventDefault(); 
@@ -185,8 +185,8 @@ $(document).ready(function(){
                     data :{nome: $("#nome").val(),cognome: $("#cognome").val(),email: $("#email").val(),pwd: $("#pwd").val(), pwd2: $("#pwd2").val(), pwd3: $("#pwd3").val()},
                     success: function(data)
                     {
-                        $("#success").empty(); // show response from the php script.
-                        $("#success").html(data); // show response from the php script.
+                        $("#success").empty(); 
+                        $("#success").html(data); 
                         $("#success").css("display", "block");
                     }
                     });
@@ -200,8 +200,8 @@ $(document).ready(function(){
                     data :{evento: $("#evento").val()},
                     success: function(data)
                     {
-                        $("#success").empty(); // show response from the php script.
-                        $("#success").html(data); // show response from the php script.
+                        $("#success").empty(); 
+                        $("#success").html(data); 
                         $("#success").css("display", "block");
                     }
                     });
@@ -215,8 +215,8 @@ $(document).ready(function(){
                     data :{denominazione: $("#denominazione").val(),città: $("#città").val(),tipologia: $("#tipologia").val(),provincia: $("#provincia").val(),via: $("#via").val(), datainizio: $("#datainizio").val(), datafine: $("#datafine").val(),maxiscritti: $("#maxiscritti").val(),prezzo: $("#prezzo").val(), sito: $("#sito").val(),recapito: $("#recapito").val(),descrizione: $("#descrizione").val()},
                     success: function(data)
                     {
-                        $("#successo").empty(); // show response from the php script.
-                        $("#successo").html(data); // show response from the php script.
+                        $("#successo").empty(); 
+                        $("#successo").html(data); 
                         $("#successo").css("display", "block");
                     }
                     });
@@ -230,8 +230,8 @@ $(document).ready(function(){
                     data :{evento: $("#evento").val()},
                     success: function(data)
                     {
-                        $("#risultato").empty(); // show response from the php script.
-                        $("#risultato").html(data); // show response from the php script.
+                        $("#risultato").empty(); 
+                        $("#risultato").html(data); 
                         $("#risultato").css("display", "block");
                     }
                     });
@@ -250,8 +250,8 @@ $(document).ready(function(){
                     sito2: $("#sito2").val()},
                     success: function(data)
                     {
-                        $("#risultato").empty(); // show response from the php script.
-                        $("#risultato").html(data); // show response from the php script.
+                        $("#risultato").empty(); 
+                        $("#risultato").html(data); 
                         $("#risultato").css("display", "block");
                     }
                     });
@@ -265,8 +265,8 @@ $(document).ready(function(){
                     data :{id_evento: $("#id_evento").val()},
                     success: function(data)
                     {
-                        $("#risultato").empty(); // show response from the php script.
-                        $("#risultato").html(data); // show response from the php script.
+                        $("#risultato").empty(); 
+                        $("#risultato").html(data); 
                         $("#risultato").css("display", "block");
                     }
                     });
@@ -280,8 +280,8 @@ $(document).ready(function(){
                     data :{evento: $("#evento").val()},
                     success: function(data)
                     {
-                        $("#risultato").empty(); // show response from the php script.
-                        $("#risultato").html(data); // show response from the php script.
+                        $("#risultato").empty(); 
+                        $("#risultato").html(data); 
                         $("#risultato").css("display", "block");
                     }
                     });
