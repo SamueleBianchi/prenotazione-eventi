@@ -5,20 +5,6 @@
  */
 var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 5, mirror: false });
 
-function prenotazione(content){
-    if(content.startsWith("id=")){
-        $.get("./eventi/prenotazione.php?"+content, function(data, status){
-            $('#main2').css("display", "none"); // show response from the php script.
-            scanner.stop();
-            $("#main").html(data); // show response from the php script.
-        });
-    }else{
-            $('#main2').css("display", "none"); // show response from the php script.
-            scanner.stop();
-            $("#main").html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : QR code non valido.</div>'); // show response from the php script.
-    }
-    }
-    
 $(document).ready(function(){   
                  
 		//When btn is clicked
@@ -28,6 +14,7 @@ $(document).ready(function(){
 		});
                 
                 $('li').click(function(){   
+                    scanner.stop();
                 switch($(this).attr("id")){
                     case "profilo":
                         scanner.stop();
@@ -89,6 +76,9 @@ $(document).ready(function(){
                         if(scanner !== null){
                             scanner.stop();
                         }
+                        if($(window).width() < 767){
+                            $("#mainmenu").toggleClass("show");
+                        }
                         $.ajax({
                         type: "POST",
                         url: "./gestioneEvento/eventiPrenotati.php",
@@ -107,44 +97,57 @@ $(document).ready(function(){
                             $("#mainmenu").toggleClass("show");
                         }
                         $('#main2').css("display", "block");
-					scanner.addListener('scan',function(content){
-                                                prenotazione(content);
-					});
-                                        $('li').click(function(){
-                                            scanner.stop();
+                        var i=0;
+                        scanner.addListener('scan',function(content){
+                            i++;
+                            if(i === 1){
+                                prenotazione(content);
+                            }                        
+                        });
+                        Instascan.Camera.getCameras().then(function (cameras){
+                                if(cameras.length>0){
+                                        scanner.start(cameras[0]);
+                                        $('[name="options"]').on('change',function(){
+                                                if($(this).val()==1){
+                                                        if(cameras[1]!=""){
+                                                                scanner.start(cameras[0]);
+                                                        }else{
+                                                                alert('Nessuna fotocamera frontale trovata!');
+                                                        }
+                                                }else if($(this).val()==2){
+                                                        if(cameras[0]!=""){
+                                                                scanner.start(cameras[1]);
+                                                        }else{
+                                                                alert('Nessuna fotocamera posteriore trovata!');
+                                                        }
+                                                }
                                         });
-					Instascan.Camera.getCameras().then(function (cameras){
-						if(cameras.length>0){
-							scanner.start(cameras[0]);
-							$('[name="options"]').on('change',function(){
-								if($(this).val()==1){
-									if(cameras[1]!=""){
-										scanner.start(cameras[0]);
-									}else{
-										alert('Nessuna fotocamera frontale trovata!');
-									}
-								}else if($(this).val()==2){
-									if(cameras[0]!=""){
-										scanner.start(cameras[1]);
-									}else{
-										alert('Nessuna fotocamera posteriore trovata!');
-									}
-								}
-							});
-						}else{
-							console.error('Nessuna fotocamera trovata.');
-							alert('Nessuna fotocamera trovata.');
-						}
-					}).catch(function(e){
-						console.error(e);
-						alert(e);
-					});
+                                }else{
+                                        console.error('Nessuna fotocamera trovata.');
+                                        alert('Nessuna fotocamera trovata.');
+                                }
+                        }).catch(function(e){
+                                console.error(e);
+                                alert(e);
+                        });
                         break;
                 }
                 });                
     });
     
-    
+    function prenotazione(content){
+    if(content.startsWith("id=")){
+        $.get("./eventi/prenotazione.php?"+content, function(data, status){
+            $('#main2').css("display", "none"); // show response from the php script.
+            scanner.stop();
+            $("#main").html(data); // show response from the php script.
+        });
+    }else{
+            $('#main2').css("display", "none"); // show response from the php script.
+            scanner.stop();
+            $("#main").html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : QR code non valido.</div>'); // show response from the php script.
+    }
+    }
     
     $(document).on('submit', 'form#aggiornaProfilo', function(evt){
                     $.ajax({

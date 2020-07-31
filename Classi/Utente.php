@@ -128,11 +128,10 @@ class Utente extends UtenteGenerico{
     }
 
     private function ricerca_prenotazione($IDEvento, $connessione){
-        $ricerca = "SELECT * FROM prenotazioni WHERE CodEvento = $IDEvento AND CodUtente = ".$_SESSION['IDUtente'];
+        $ricerca = "SELECT * FROM prenotazioni WHERE prenotazioni.CodEvento = $IDEvento AND prenotazioni.CodUtente = ".$_SESSION['IDUtente'];
         $out = $connessione->query($ricerca);
         $num = $out->rowCount();
-        echo $num;
-        if($num != 0){
+        if($num == 1){
             echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span>Impossibile prenotare: prenotazione già effettuata per questo evento</div>';
             return 0; 
         }
@@ -169,24 +168,24 @@ class Utente extends UtenteGenerico{
 
         $iscrizioni = "SELECT max_iscritti, iscritti FROM eventi WHERE IDEvento = $IDEvento";
         $risultato = $connessione->query($iscrizioni);
-        $num = $risultato->rowCount();
-        if($num != 1){
-        echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : l\'evento potrebbe non essere più disponibile.</div>';
+        $num1 = $risultato->rowCount();
+        if($num1 != 1){
+            echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : l\'evento potrebbe non essere più disponibile.</div>';
         }else{
             $riga = $risultato->fetch(PDO::FETCH_ASSOC);
             if($riga['iscritti'] == $riga['max_iscritti']){
                  echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Siamo spiacenti: l\'evento non ha più posti disponibili!';
             }else{
-                if($this->ricerca_prenotazione($IDEvento, $connessione) === 1){
+                if($this->ricerca_prenotazione($IDEvento, $connessione) == 1){
                     $data_prenotazione = date("d/m/Y h:i:s");
                     $prossimo_iscritto = $riga['iscritti']+1;
                     $prenotazione = "INSERT INTO prenotazioni(CodEvento, CodUtente, numero_iscr, data_iscr) VALUES ($IDEvento, ".$_SESSION['IDUtente'].",".$prossimo_iscritto.",'".$data_prenotazione."')";        
-                    $out = $connessione->exec($prenotazione);
+                    $stmt = $connessione->query($prenotazione);
                     
                     $this->update_iscritti($prossimo_iscritto, $IDEvento, $connessione);
                     $this->info_pren($connessione, $IDEvento, $prossimo_iscritto, $data_prenotazione, $riga);
-                        
-                    }
+                    
+                }
             }
         }
     }
@@ -210,10 +209,11 @@ class Utente extends UtenteGenerico{
                 echo '<strong>Via: </strong>'.$riga['via'].'<br>';
                 echo '<strong>Provincia: </strong>'.$riga['provincia'].'<br>';
                 echo '<strong>Prezzo: </strong>'.$riga['prezzo'].'<br>';
-                echo '<strong>Descrizione: </strong>'.$riga['descrizione'].'<br>';
+                echo '<strong>Descrizione: </strong>'.$riga['descrizione'].'<br><br>';
+                echo '<strong>Data e ora di iscrizione: </strong>'.$riga['data_iscr'].'<br>';
                 echo '<strong>Numero iscrizione: </strong>'.$riga['numero_iscr'].'<br><br>'
-                        . '<div class="form-group">
-                            <button id="annulla_pren" type="submit" name="annulla_pren" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annulla prenotazione</button> 
+                        . '<div class="form-group" style="text-align: center;">
+                            <button  id="annulla_pren" type="submit" name="annulla_pren" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annulla prenotazione</button> 
                             </form></div>';
             }
         }
