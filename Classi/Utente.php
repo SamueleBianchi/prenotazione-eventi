@@ -227,11 +227,23 @@ class Utente extends UtenteGenerico{
             while($riga = $risultato->fetch(PDO::FETCH_ASSOC)){ 
                 $query = "DELETE FROM prenotazioni WHERE prenotazioni.CodUtente = ".$this->getIdUtente()." AND CodEvento = $IdEvento";
                 $out = $connessione->query($query);
-                $query2 = "UPDATE eventi SET iscritti = iscritti - 1 WHERE IDEvento = $IdEvento";
-                $out1 = $connessione->query($query2);
-                $query3 = "UPDATE prenotazioni SET numero_iscr = numero_iscr - 1 WHERE numero_iscr > ".$riga['numero_iscr']." AND CodEvento = $IdEvento";
-                $out2 = $connessione->query($query3);
-                echo 'fatto';
+                $num1 = $out->rowCount();
+                if($num1 == 1){
+                    $query2 = "UPDATE eventi SET iscritti = iscritti - 1 WHERE IDEvento = $IdEvento";
+                    $out1 = $connessione->query($query2);
+                    $num2 = $out1->rowCount();
+                    if($num1 == 1){
+                        $query3 = "UPDATE prenotazioni SET numero_iscr = numero_iscr - 1 WHERE numero_iscr > ".$riga['numero_iscr']." AND CodEvento = $IdEvento";
+                        $out2 = $connessione->query($query3);  
+                        echo '<div class="alert alert-success" role="alert">';
+                        echo '<span class="glyphicon glyphicon-ok"></span> Prenotazione annullata con successo';       
+                        echo '</div>';
+                    }else{
+                        echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore durante l\'annullamento dell\'evento.</div>';
+                    }
+                }else{
+                    echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore durante l\'annullamento dell\'evento.</div>';
+                }
             }
         }   
         }
