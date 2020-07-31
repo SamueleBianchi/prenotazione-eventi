@@ -56,10 +56,16 @@ class Utente extends UtenteGenerico{
         $nuovaPassword = filtra($_POST['pwd2']);
         $nuovaPassword2 = filtra($_POST['pwd3']);
 
+        $message_email = "";
         $message = "";
         $message2 = "";
         $session_id = $_SESSION['IDUtente'];
-
+        $query_email = "SELECT email FROM Utenti WHERE email ='".$nuovaEmail."' AND IDUtente != $session_id ";
+        $risultato1 = $connessione->query($query_email);
+        $count = $risultato1->rowCount();
+        if($count == 1){
+            $message_email = $message_email."L'email inserità è già utilizzata da un altro utente.";
+        }
         $query="SELECT * FROM utenti WHERE IDUtente = $session_id AND pwd = MD5('".$vecchiaPassword."')";
         $risultato = $connessione->query($query);
         $num = $risultato->rowCount();
@@ -70,8 +76,11 @@ class Utente extends UtenteGenerico{
             $message2 = $message2."Le due password non sono uguali.";
         }
 
-        if(strcmp($message, "") || strcmp($message2, "")){
+        if(strcmp($message, "") || strcmp($message2, "") || strcmp($message_email, "")){
            echo '<div class="alert alert-danger" role="alert">';
+           if(strcmp($message_email, "")){
+                   echo '<span class="glyphicon glyphicon-remove"></span> '.$message_email.'<br>';       
+           }
            if(strcmp($message, "")){
                    echo '<span class="glyphicon glyphicon-remove"></span> '.$message.'<br>';       
            }
@@ -85,6 +94,10 @@ class Utente extends UtenteGenerico{
             $_SESSION['nome']= $nuovoNome;
             $_SESSION['cognome']=$nuovoCognome;
             $_SESSION['email']=$nuovaEmail;
+            $this->setNome($nuovoNome);
+            $this->setCognome($nuovoCognome);
+            $this->setEmail($nuovaEmail);
+            $this->setPassword($nuovaPassword);
            echo '<div class="alert alert-success" role="alert">';
            echo '<span class="glyphicon glyphicon-ok"></span> Profilo aggiornato con successo';       
            echo '</div>';

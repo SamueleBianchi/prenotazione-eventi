@@ -58,15 +58,26 @@ header('Location: accessPage.php');
             <li id="profilo2"><a id="profilo2"><span class="glyphicon glyphicon-user"></span> Profilo</a></li>
             <li id="aggiungi"><a id="aggiungi"><span class="glyphicon glyphicon-plus"></span> Aggiungi evento</a></li>
             <li id="gestisci"><a id="gestisci"><span class="glyphicon glyphicon-cog"></span> Gestisci eventi</a></li>
-            <li id="partecipanti"><a id="partecipanti"><span class="glyphicon glyphicon-align-justify"></span> Visualizza utenti</a></li>
+            <li id="partecipanti"><a id="partecipanti"><span class="glyphicon glyphicon-align-justify"></span> Visualizza prenotati</a></li>
             <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
                 <?php } ?>
         </ul> 
 	</div> <!-- #mainmenu -->
     
 	<div id="main"><div id="testo">
-            <h1>Bentornato <?php echo $oggetto->getNome(); ?> </h1>
-            <p>Quando la larghezza dello schermo è sotto i 767px, il menu viene nascosto e ottimizzato per Smartphone e Tablet. Ridimensiona la finestra per vedere il menu in azione.</p>
+            <h1>Bentornato <?php echo $oggetto->getNome(); ?> !</h1>
+             <?php if(!isset($_SESSION['id'])){ ?>
+            <br><p>Per scannerizzare il QR code di un evento premi l'apposito pulsante denominato "Scan", consenti l'uso della tua videocamera, e successivamente
+                inquadra il QR code.<br>Per visualizzare gli eventi a cui sei prenotato clicca il pulsante "I miei eventi" : potrai annullare la prenotazione
+                di un evento utilizzando l'apposito bottone. <br>Se invece vuoi cercare un determinato evento utilizza il pulsante "Ricerca Evento".<br>
+                Puoi anche modificare le tue informazioni nell'interfaccia dedicata.<br>Ti ricordiamo che l'applicazione web è utilizzabile anche da smartphone.
+            </p>
+            <?php }else{?>
+            <br><p> Per creare un nuovo evento clicca il pulsante "Aggiungi evento", compila il form e premi il bottone di conferma.
+                <br>Se vuoi modificare o eliminare un evento invece, clicca "Gestisci eventi".
+                <br>Se vuoi visualizzare gli utenti che si sono prenotati ad un determinato evento clicca il pulsante "Visualizza prenotati". 
+                </p>
+            <?php } ?>
             </div>   
 	</div> <!-- #main -->
         
@@ -104,7 +115,7 @@ header('Location: accessPage.php');
         
         <script src="Scripts/mainjs.js" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     
    
     
