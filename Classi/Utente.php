@@ -60,7 +60,7 @@ class Utente extends UtenteGenerico{
         $message = "";
         $message2 = "";
         $session_id = $_SESSION['IDUtente'];
-        $query_email = "SELECT email FROM Utenti WHERE email ='".$nuovaEmail."' AND IDUtente != $session_id ";
+        $query_email = "SELECT email FROM utenti WHERE email ='".$nuovaEmail."' AND IDUtente != $session_id ";
         $risultato1 = $connessione->query($query_email);
         $count = $risultato1->rowCount();
         if($count == 1){

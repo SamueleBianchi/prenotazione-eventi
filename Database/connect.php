@@ -16,7 +16,8 @@ $password = "";
 */
 try {
   // stringa di connessione al DBMS
-  $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+  global $connessione;
+  $connessione= new PDO("mysql:host=$host;dbname=$db", $user, $password);
   // impostazione dell'attributo per il report degli errori
   $connessione->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }

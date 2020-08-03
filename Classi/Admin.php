@@ -22,7 +22,7 @@ class Admin extends UtenteGenerico{
     public function accedi() {
         require '../Database/connect.php';
         
-        $query="SELECT * FROM Admins WHERE IDAdmin = ".$this->getIdAdmin()." AND email = '".$this->getEmail()."' AND pwd = MD5('".$this->getPassword()."')";
+        $query="SELECT * FROM admins WHERE IDAdmin = ".$this->getIdAdmin()." AND email = '".$this->getEmail()."' AND pwd = MD5('".$this->getPassword()."')";
         $risultato = $connessione->query($query);
         $numero_righe = $risultato->rowCount();       
         if($numero_righe == 1){
@@ -136,12 +136,14 @@ class Admin extends UtenteGenerico{
         public function eliminaEvento($IdEvento){
             require '../Database/connect.php';
             $elimina =  "DELETE FROM eventi WHERE IDEvento = '".$IdEvento."'";
+            $elimina_prenotazioni =  "DELETE FROM prenotazioni WHERE CodEvento = '".$IdEvento."'";
             $num = $connessione->exec($elimina);
             if($num == 1){
                 echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok"></span> Evento eliminato con successo</div>';
             }else{
                 echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore nell\'eliminazione dell\'evento</div>';
             }
+            $out = $connessione->exec($elimina_prenotazioni);
         }
         
         public function modificaEvento($IdEvento){

@@ -13,7 +13,6 @@ $nome= filtra($_POST['nome']);
 $cognome=filtra($_POST['cognome']);
 $pwd=filtra($_POST['password']);
 $email=filtra($_POST['email']);
-$IDUtente="";
 $query_email = "SELECT email FROM Utenti WHERE email ='".$email."'";
 $risultato = $connessione->query($query_email);
 $count = $risultato->rowCount();
@@ -34,8 +33,7 @@ $html='<html>
 if($count == 0){
     $pwdCript= md5($pwd);
 
-    $query=$connessione->prepare("INSERT INTO utenti (IDUtente, nome, cognome, email, pwd) VALUES (:IDUtente, :nome, :cognome, :email, :pwd)");
-    $query->bindParam(':IDUtente', $IDUtente, PDO::PARAM_INT, 10);
+    $query=$connessione->prepare("INSERT INTO utenti (nome, cognome, email, pwd) VALUES (:nome, :cognome, :email, :pwd)");
     $query->bindParam(':nome', $nome, PDO::PARAM_STR, 30);
     $query->bindParam(':cognome', $cognome, PDO::PARAM_STR, 40);
     $query->bindParam(':email', $email, PDO::PARAM_STR, 64);
