@@ -109,7 +109,7 @@ class Utente extends UtenteGenerico{
             require_once dirname(__FILE__).'/../Filtro/filtro.php';
 
             $nome_evento = filtra($_POST['evento']);
-            $ricerca = "SELECT * FROM eventi WHERE denominazione = '".$nome_evento."'";
+            $ricerca = "SELECT * FROM eventi, luoghi WHERE denominazione = '".$nome_evento."' AND eventi.CodLuogo = luoghi.IDLuogo";
             $risultato = $connessione->query($ricerca);
             $num = $risultato->rowCount();
             
@@ -124,6 +124,7 @@ class Utente extends UtenteGenerico{
                     echo '<strong>Data inizio: </strong>'.$riga['data_inizio'].'<br>';
                     echo '<strong>Data fine: </strong>'.$riga['data_fine'].'<br>';
                     echo '<strong>Via: </strong>'.$riga['via'].'<br>';
+                    echo '<strong>Città: </strong>'.$riga['citta'].'<br>';
                     echo '<strong>Provincia: </strong>'.$riga['provincia'].'<br>';
                     echo '<strong>Iscritti: </strong>'.$riga['iscritti'].'<br>';
                     echo '<strong>Numero massimo di iscritti: </strong>'.$riga['max_iscritti'].'<br>';
@@ -157,7 +158,7 @@ class Utente extends UtenteGenerico{
         echo '<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok"></span> Prenotazione effettuata con successo <br><br>'
              . '<strong>Numero prenotazione : </strong>'.$prossimo_iscritto.'/'.$riga['max_iscritti'].'<br>'
              .'<strong>Data e ora di prenotazione : </strong>'.$data_prenotazione.'<br><br>';
-        $evento = "SELECT * FROM eventi WHERE IDEvento = $IDEvento";
+        $evento = "SELECT * FROM eventi, luoghi WHERE IDEvento = $IDEvento AND eventi.CodLuogo = luoghi.IDLuogo";
         $out = $connessione->query($evento);
         $num = $out->rowCount();
         if($num != 0){
@@ -167,6 +168,7 @@ class Utente extends UtenteGenerico{
                 echo '<strong>Data inizio: </strong>'.$riga2['data_inizio'].'<br>';
                 echo '<strong>Data fine: </strong>'.$riga2['data_fine'].'<br>';
                 echo '<strong>Via: </strong>'.$riga2['via'].'<br>';
+                echo '<strong>Città: </strong>'.$riga2['citta'].'<br>';
                 echo '<strong>Provincia: </strong>'.$riga2['provincia'].'<br>';
                 echo '<strong>Prezzo: </strong>'.$riga2['prezzo'].'<br>';
                 echo '<strong>Descrizione: </strong>'.$riga2['descrizione'].'<br>';
@@ -205,7 +207,7 @@ class Utente extends UtenteGenerico{
 
     public function getEventiPrenotati(){
         require '../Database/connect.php';
-        $query = "SELECT * FROM eventi, prenotazioni, utenti WHERE utenti.IDUtente = ".$this->getIdUtente()." AND utenti.IDUtente = prenotazioni.CodUtente AND eventi.IDEvento = prenotazioni.CodEvento";
+        $query = "SELECT * FROM eventi, prenotazioni, utenti, luoghi WHERE utenti.IDUtente = ".$this->getIdUtente()." AND utenti.IDUtente = prenotazioni.CodUtente AND eventi.IDEvento = prenotazioni.CodEvento AND eventi.CodLuogo = luoghi.IDLuogo";
         $risultato = $connessione->query($query);
         $num = $risultato->rowCount();
         if($num == 0){

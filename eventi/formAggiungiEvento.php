@@ -8,6 +8,11 @@
             <label for="nome">Denominazione:</label>
             <input style="width: 50%;" class="form-control" name="denominazione" id="denominazione" required="true">
         </div>
+            
+        <div class="form-group">
+            <label for="città">Città:</label>
+            <input style="width: 50%;" class="form-control" name="città" id="città" required="true">
+        </div>
 
         <?php 
             require "../Database/connect.php";
@@ -21,11 +26,11 @@
             }
             echo '</select></div>';
         ?>
-
+            
         <div class="form-group">
-            <label for="città">Città:</label>
-            <input style="width: 50%;" class="form-control" name="città" id="città" required="true">
-        </div>
+            <label for="via">Via:</label>
+            <input style="width: 50%;" type="text" class="form-control"  name="via" id="via" required="true">
+       </div>
 
          <div class="form-group">
             <label for="tipologia">Tipologia:</label>
@@ -51,10 +56,6 @@
             </select>
           </div> 
 
-        <div class="form-group">
-            <label for="via">Via:</label>
-            <input style="width: 50%;" type="text" class="form-control"  name="via" id="via" required="true">
-       </div>
 
         <div class="container">
         <div class="row">
