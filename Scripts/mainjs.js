@@ -152,7 +152,7 @@ $(document).ready(function(){
                     $.ajax({
                     type: "POST",
                     url: "./modificaProfilo/modificaProfiloUtente.php",
-                    data :{nome: $("#nome").val(),cognome: $("#cognome").val(),email: $("#email").val(),pwd: $("#pwd").val(), pwd2: $("#pwd2").val(), pwd3: $("#pwd3").val()},
+                    data :{nome: $("#nome").val(),cognome: $("#cognome").val(), codicefiscale: $("#codicefiscale").val(), email: $("#email").val(),pwd: $("#pwd").val(), pwd2: $("#pwd2").val(), pwd3: $("#pwd3").val()},
                     success: function(data)
                     {
                         $("#success").empty(); 
@@ -182,7 +182,7 @@ $(document).ready(function(){
                     $.ajax({
                     type: "POST",
                     url: "./modificaProfilo/modificaProfiloAdmin.php",
-                    data :{nome: $("#nome").val(),cognome: $("#cognome").val(),email: $("#email").val(),pwd: $("#pwd").val(), pwd2: $("#pwd2").val(), pwd3: $("#pwd3").val()},
+                    data :{nome: $("#nome").val(),cognome: $("#cognome").val(), codicefiscale: $("#codicefiscale").val(), email: $("#email").val(),pwd: $("#pwd").val(), pwd2: $("#pwd2").val(), pwd3: $("#pwd3").val()},
                     success: function(data)
                     {
                         $("#success").empty(); 

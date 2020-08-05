@@ -11,6 +11,7 @@ require "../Database/connect.php";
 //sanifico i vari dati immessi dall'utente
 $nome= filtra($_POST['nome']);
 $cognome=filtra($_POST['cognome']);
+$cf= filtra($_POST['codicefiscale']);
 $pwd=filtra($_POST['password']);
 $email=filtra($_POST['email']);
 $query_email = "SELECT email FROM Utenti WHERE email ='".$email."'";
@@ -33,11 +34,12 @@ $html='<html>
 if($count == 0){
     $pwdCript= md5($pwd);
 
-    $query=$connessione->prepare("INSERT INTO utenti (nome, cognome, email, pwd) VALUES (:nome, :cognome, :email, :pwd)");
-    $query->bindParam(':nome', $nome, PDO::PARAM_STR, 30);
-    $query->bindParam(':cognome', $cognome, PDO::PARAM_STR, 40);
-    $query->bindParam(':email', $email, PDO::PARAM_STR, 64);
-    $query->bindParam(':pwd', $pwdCript, PDO::PARAM_STR, 30);
+    $query=$connessione->prepare("INSERT INTO utenti (nome, cognome, cf , email, pwd) VALUES (:nome, :cognome, :cf, :email, :pwd)");
+    $query->bindParam(':nome', $nome, PDO::PARAM_STR, 255);
+    $query->bindParam(':cognome', $cognome, PDO::PARAM_STR, 255);
+    $query->bindParam(':cf', $cf, PDO::PARAM_STR, 255);
+    $query->bindParam(':email', $email, PDO::PARAM_STR, 255);
+    $query->bindParam(':pwd', $pwdCript, PDO::PARAM_STR, 255);
     try{
         $query->execute();
                                     

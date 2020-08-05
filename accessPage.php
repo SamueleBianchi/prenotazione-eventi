@@ -20,8 +20,9 @@ if(isset($_SESSION['email'])){
                     <h2> Registrati </h2>
                     <input type="text" name="nome" placeholder="Nome" required="true"/>
                     <input type="text" name="cognome"placeholder="Cognome" required="true"/>
+                    <input type="text" name="codicefiscale" id="codicefiscale" placeholder="Codice fiscale" pattern="^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$" required="true" title="codice fiscale">
                     <input type="email" name="email" placeholder="Email" required="true"/>
-                    <input type="password" name="password" placeholder="Password" required="true"/>
+                    <input type="password" name="password" placeholder="Password" required="true" pattern=".{8,}" title="almeno 8 caratteri"/>
                     <button type="submit" form="form_subscribe">Registrati</button>
                     <p class="message">Sei già registrato? <a href="#">Accedi</a></p>
                 </form>

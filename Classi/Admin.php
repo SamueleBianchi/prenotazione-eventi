@@ -31,12 +31,14 @@ class Admin extends UtenteGenerico{
                 $this->setNome($row['nome']);
                 $this->setCognome($row['cognome']);
                 $this->setPassword($row['pwd']);
+                $this->setCf($row['cf']);
                 $this->setIdAdmin($row['IDAdmin']);
             }
             
             $_SESSION['email'] = $this->getEmail();
             $_SESSION['nome'] = $this->getNome();
             $_SESSION['cognome'] = $this->getCognome();
+            $_SESSION['cf'] = $this->getCf();
             $_SESSION['id'] = $this->getIdAdmin();
             $_SESSION['oggetto'] = serialize($this);
             header("Location: ../index.php");   
@@ -52,6 +54,7 @@ class Admin extends UtenteGenerico{
         $nuovoNome = filtra($_POST['nome']);
         $nuovoCognome = filtra($_POST['cognome']);
         $nuovaEmail = filtra($_POST['email']);
+        $nuovoCf = filtra($_POST['codicefiscale']);
         $vecchiaPassword = filtra($_POST['pwd']);
         $nuovaPassword = filtra($_POST['pwd2']);
         $nuovaPassword2 = filtra($_POST['pwd3']);
@@ -80,7 +83,7 @@ class Admin extends UtenteGenerico{
            }
            echo '</div>';
         }else{
-            $query2 = "UPDATE admins SET nome = '".$nuovoNome."', cognome = '".$nuovoCognome."',email = '".$nuovaEmail."',pwd = MD5('".$nuovaPassword."') WHERE IDAdmin = $session_id";
+            $query2 = "UPDATE admins SET nome = '".$nuovoNome."', cognome = '".$nuovoCognome."', cf = '".$nuovoCf."', email = '".$nuovaEmail."',pwd = MD5('".$nuovaPassword."') WHERE IDAdmin = $session_id";
             $connessione->exec($query2);
             $_SESSION['nome']= $nuovoNome;
             $_SESSION['cognome']=$nuovoCognome;

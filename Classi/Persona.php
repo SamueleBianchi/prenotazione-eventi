@@ -43,7 +43,7 @@ class Persona{
     }
     
     public function setCf($cf) {
-        $this->email = $cf;
+        $this->cf = $cf;
     }
     
 }

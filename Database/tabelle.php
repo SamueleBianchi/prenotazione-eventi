@@ -18,21 +18,21 @@ $crea_tb = $connessione->exec("CREATE TABLE IF NOT EXISTS Eventi (
     FOREIGN KEY (CodLuogo) REFERENCES luoghi(IDLuogo)
   )");
 
-//$crea_tb = $connessione->exec("CREATE TABLE IF NOT EXISTS Prenotazioni (
-//    IDPrenotazioni int(10) NOT NULL AUTO_INCREMENT,
-//    CodEvento int(10) NOT NULL ,
-//    CodUtente int(10) NOT NULL,
-//    numero_iscr int(10) NOT NULL,
-//    data_iscr varchar(32) NOT NULL,
-//    PRIMARY KEY (IDPrenotazioni),
-//    FOREIGN KEY (CodUtente) REFERENCES utenti(IDUtente) ON DELETE CASCADE,
-//    FOREIGN KEY (CodEvento) REFERENCES eventi(IDEvento) ON DELETE CASCADE
-//  )");
-//
-//$crea_tb = $connessione->exec("CREATE TABLE IF NOT EXISTS Luoghi (
-//    IDLuogo int(10) NOT NULL AUTO_INCREMENT,
-//    via varchar(32) NOT NULL,
-//    citta varchar(32) NOT NULL,
-//    provincia varchar(32) NOT NULL,
-//    PRIMARY KEY (IDLuogo)
-//  )");
+$crea_tb = $connessione->exec("CREATE TABLE IF NOT EXISTS Prenotazioni (
+    IDPrenotazioni int(10) NOT NULL AUTO_INCREMENT,
+    CodEvento int(10) NOT NULL ,
+    CodUtente int(10) NOT NULL,
+    numero_iscr int(10) NOT NULL,
+    data_iscr varchar(32) NOT NULL,
+    PRIMARY KEY (IDPrenotazioni),
+    FOREIGN KEY (CodUtente) REFERENCES utenti(IDUtente) ON DELETE CASCADE,
+    FOREIGN KEY (CodEvento) REFERENCES eventi(IDEvento) ON DELETE CASCADE
+  )");
+
+$crea_tb = $connessione->exec("CREATE TABLE IF NOT EXISTS Luoghi (
+    IDLuogo int(10) NOT NULL AUTO_INCREMENT,
+    via varchar(32) NOT NULL,
+    citta varchar(32) NOT NULL,
+    provincia varchar(32) NOT NULL,
+    PRIMARY KEY (IDLuogo)
+  )");

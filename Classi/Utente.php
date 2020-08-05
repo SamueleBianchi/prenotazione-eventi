@@ -29,7 +29,9 @@ class Utente extends UtenteGenerico{
             session_start();
             foreach ($connessione->query($query) as $row) {
                 $this->setNome($row['nome']);
+                $this->setEmail($row['email']);
                 $this->setCognome($row['cognome']);
+                $this->setCf($row['cf']);
                 $this->setPassword($row['pwd']);
                 $this->setIdUtente($row['IDUtente']);
             }
@@ -37,6 +39,7 @@ class Utente extends UtenteGenerico{
             $_SESSION['email'] = $this->getEmail();
             $_SESSION['nome'] = $this->getNome();
             $_SESSION['cognome'] = $this->getCognome();
+            $_SESSION['cf'] = $this->getCf();
             $_SESSION['IDUtente'] = $this->getIdUtente();
             $_SESSION['oggetto'] = serialize($this);
             header("Location: ../index.php");   
@@ -52,6 +55,7 @@ class Utente extends UtenteGenerico{
         $nuovoNome = filtra($_POST['nome']);
         $nuovoCognome = filtra($_POST['cognome']);
         $nuovaEmail = filtra($_POST['email']);
+        $nuovoCf = filtra($_POST['codicefiscale']);
         $vecchiaPassword = filtra($_POST['pwd']);
         $nuovaPassword = filtra($_POST['pwd2']);
         $nuovaPassword2 = filtra($_POST['pwd3']);
@@ -89,11 +93,12 @@ class Utente extends UtenteGenerico{
            }
            echo '</div>';
         }else{
-            $query2 = "UPDATE utenti SET nome = '".$nuovoNome."', cognome = '".$nuovoCognome."',email = '".$nuovaEmail."',pwd = MD5('".$nuovaPassword."') WHERE IDUtente = $session_id";
+            $query2 = "UPDATE utenti SET nome = '".$nuovoNome."', cognome = '".$nuovoCognome."',cf = '".$nuovoCf."', email = '".$nuovaEmail."',pwd = MD5('".$nuovaPassword."') WHERE IDUtente = $session_id";
             $connessione->exec($query2);
             $_SESSION['nome']= $nuovoNome;
             $_SESSION['cognome']=$nuovoCognome;
             $_SESSION['email']=$nuovaEmail;
+            $_SESSION['cf']=$nuovoCf;
             $this->setNome($nuovoNome);
             $this->setCognome($nuovoCognome);
             $this->setEmail($nuovaEmail);
