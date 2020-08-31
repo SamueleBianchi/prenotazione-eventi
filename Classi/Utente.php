@@ -114,12 +114,14 @@ class Utente extends UtenteGenerico{
             require_once dirname(__FILE__).'/../Filtro/filtro.php';
 
             $nome_evento = filtra($_POST['evento']);
-            $ricerca = "SELECT * FROM eventi, luoghi WHERE denominazione = '".$nome_evento."' AND eventi.CodLuogo = luoghi.IDLuogo";
+            $data = date("d/m/Y h:i:s");
+            
+            $ricerca = "SELECT * FROM eventi, luoghi WHERE denominazione = '".$nome_evento."' AND eventi.CodLuogo = luoghi.IDLuogo AND STR_TO_DATE(eventi.data_fine, '%d/%m/%Y %H:%i:%s') > STR_TO_DATE('$data', '%d/%m/%Y %H:%i:%s')";
             $risultato = $connessione->query($ricerca);
             $num = $risultato->rowCount();
             
             if($num == 0){
-                echo '<div class="alert alert-danger" role="alert">Errore : non esiste alcun evento denominato '.$nome_evento.'.</div>';
+                echo '<div class="alert alert-danger" role="alert">Errore : non esiste alcun evento denominato '.$nome_evento.'. o l\'evento non è più prenotabile.</div>';
             }else{
                 while($riga = $risultato->fetch(PDO::FETCH_ASSOC)){
                     echo '<img src="http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl=id='.$riga['IDEvento'].'">';
