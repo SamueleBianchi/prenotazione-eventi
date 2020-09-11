@@ -158,7 +158,8 @@ class Utente extends UtenteGenerico{
         }
             return 1;
     }
-
+    
+    // la funzione stampa le informazioni utili nella fase di prenotazione
     private function info_pren($connessione,$IDEvento, $prossimo_iscritto, $data_prenotazione, $riga){
         require_once '../Database/connect.php';
         require_once dirname(__FILE__).'/../Filtro/filtro.php';
@@ -187,17 +188,29 @@ class Utente extends UtenteGenerico{
        
     public function prenota($IDEvento) {
         require '../Database/connect.php';
-
-        $iscrizioni = "SELECT max_iscritti, iscritti FROM eventi WHERE IDEvento = $IDEvento";
+        // memorizzo le info utili
+        $iscrizioni = "SELECT max_iscritti, iscritti, data_fine FROM eventi WHERE IDEvento = $IDEvento";
         $risultato = $connessione->query($iscrizioni);
         $num1 = $risultato->rowCount();
         if($num1 != 1){
             echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore : l\'evento potrebbe non essere più disponibile.</div>';
         }else{
+            // se l'evento non può avere altri partecipanti perche pieno viene mostrato un messaggio esplicativo
             $riga = $risultato->fetch(PDO::FETCH_ASSOC);
             if($riga['iscritti'] == $riga['max_iscritti']){
                  echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Siamo spiacenti: l\'evento non ha più posti disponibili!';
             }else{
+                // se il momento della scannerizzazione viene nel momento successivo al termine delle'evento
+                // (ora > tempo_fine evento) si avvaisa che il qrcode è "scaduto" 
+                // (utile ad esempio se l'utente si salva il QR code e pensa di effettuare lo scan in un secondo momento,
+                // senza questo controllo l'utente avrebbe modo di prenotarsi anche dopo l'effettivo termine dell'evento cosa che 
+                // non è ammessa)
+                $date = DateTime::createFromFormat('d/m/Y H:i', $riga['data_fine']);
+                $date = $date->format('d/m/Y H:i');
+                if($date < date("d/m/Y H:i")){
+                    echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Siamo spiacenti: il QRCode non è piu valido!';
+                }else{
+                //se non è già stata fatta una prenotazione dall'utente effettuo la prenotazione
                 if($this->ricerca_prenotazione($IDEvento, $connessione) == 1){
                     $data_prenotazione = date("d/m/Y h:i:s");
                     $prossimo_iscritto = $riga['iscritti']+1;
@@ -210,7 +223,7 @@ class Utente extends UtenteGenerico{
                 }
             }
         }
-    }
+    }}
 
     public function getEventiPrenotati(){
         require '../Database/connect.php';
