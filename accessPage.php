@@ -1,5 +1,6 @@
 <?php
 session_start();
+//se la sessione è già attiva vado direttamente alla homepage
 if(isset($_SESSION['email'])){
      header('Location: index.php');
      exit();

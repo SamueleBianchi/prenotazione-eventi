@@ -6,7 +6,7 @@ include './Classi/Admin.php';
 $_SERVER['PHP_SELF'];
 session_start(); 
 $oggetto = unserialize($_SESSION['oggetto']);
-if(!isset($_SESSION['email'])){
+if(!isset($_SESSION['email'])){ //se la sessione non è attiva ritorno alla pagina di accesso
 header('Location: accessPage.php');
 }?>
 <html>
@@ -16,10 +16,8 @@ header('Location: accessPage.php');
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
     <head>
         <meta charset="utf-8" />
-    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Events</title>
-    <!-- Mobile viewport optimized: j.mp/bplateviewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- JavaScript -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">

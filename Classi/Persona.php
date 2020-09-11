@@ -2,10 +2,10 @@
 
 class Persona{
     
-    private $nome = "";
-    private $cognome = "";
+    private $nome = ""; //nome della persona
+    private $cognome = ""; // cognome della persona
     private $email = "";
-    private $cf = "";
+    private $cf = ""; //codice fiscale
 
     public function __construct($nome, $cognome, $email, $cf) {
         $this->nome = $nome;

@@ -4,8 +4,9 @@ require_once 'UtenteGenerico.php';
 
 class Admin extends UtenteGenerico{
     
-    private $IdAdmin;
+    private $IdAdmin; //id univoco dell'admin
     
+    //metodo costruttore
     public function __construct($nome, $cognome, $email, $password, $IdAdmin) {
         parent::__construct($nome, $cognome, $email, $password);
         $this->IdAdmin = $IdAdmin;
@@ -19,9 +20,12 @@ class Admin extends UtenteGenerico{
         $this->IdAdmin = $IdAdmin;
     }
     
+    /* Tramite una query verifico la presenza dell'admin all'interno della tabella Admin
+     * se la query non trova alcuna riga stampo l'errore tramite la funzione stampa_errore()
+     * altrimenti creo la sessione e reindirizzo l'utente nella sua homepage tramite la funzione header()
+     */
     public function accedi() {
         require '../Database/connect.php';
-        
         $query="SELECT * FROM admins WHERE IDAdmin = ".$this->getIdAdmin()." AND email = '".$this->getEmail()."' AND pwd = MD5('".$this->getPassword()."')";
         $risultato = $connessione->query($query);
         $numero_righe = $risultato->rowCount();       
@@ -62,17 +66,19 @@ class Admin extends UtenteGenerico{
         $message = "";
         $message2 = "";
         $session_id = $_SESSION['id'];
-        
+        //verifico che l'admin abbia inserito la sua password attuale in maniera corretta PRIMA di effettuare la modifica del profilo
+        //se l'attuale password non è corretta viene concatenato un apposito messaggio ad una stringa $message 
         $query="SELECT * FROM admins WHERE IDAdmin = $session_id AND pwd = MD5('".$vecchiaPassword."')";
         $risultato = $connessione->query($query);
         $num = $risultato->rowCount();
         if($num == 0){
             $message = $message."La password attuale inserita non è corretta.";
         }
+        //se i due campi corrispondenti alla nuova password non sono uguali viene concatenato il messaggio di errore nell'apposita variabile
         if(strcmp($nuovaPassword,$nuovaPassword2)){
             $message2 = $message2."Le due password non sono uguali.";
         }
-
+        //stampa errori
         if(strcmp($message, "") || strcmp($message2, "")){
            echo '<div class="alert alert-danger" role="alert">';
            if(strcmp($message, "")){
@@ -83,6 +89,7 @@ class Admin extends UtenteGenerico{
            }
            echo '</div>';
         }else{
+            // effetuo la modifica del profilo tramie UPDATE e informo l'utente dell'avvenuta modifica.
             $query2 = "UPDATE admins SET nome = '".$nuovoNome."', cognome = '".$nuovoCognome."', cf = '".$nuovoCf."', email = '".$nuovaEmail."',pwd = MD5('".$nuovaPassword."') WHERE IDAdmin = $session_id";
             $connessione->exec($query2);
             $_SESSION['nome']= $nuovoNome;
@@ -116,6 +123,7 @@ class Admin extends UtenteGenerico{
         $query_luogo = "SELECT IDLuogo FROM luoghi WHERE citta = '".$città."' AND via = '".$via."' AND provincia = '".$provincia."'";
         $risultato = $connessione->query($query_luogo);
         $num = $risultato->rowCount();
+        // Se il luogo inserito non è gia presente nel db viene inserito tramite INSERT, altrimenti no
         if($num == 1){
             $riga = $risultato->fetch(PDO::FETCH_ASSOC);
             $IdLuogo = $riga['IDLuogo'];
@@ -129,11 +137,12 @@ class Admin extends UtenteGenerico{
             $riga = $risultato->fetch(PDO::FETCH_ASSOC);
             $IdLuogo = $riga['IDLuogo'];
         }
-
+        
+        //Effettuo la prenotazione specificando la chiave esterna come variabile di sessione dell'utente
         $aggiungi_evento = $connessione->prepare("INSERT INTO eventi (denominazione, tipologia, descrizione, data_inizio, data_fine, iscritti, max_iscritti, prezzo, sito, recapito, CodLuogo) VALUES (:denominazione, :tipologia, :descrizione, :data_inizio, :data_fine, :iscritti, :max_iscritti, :prezzo, :sito, :recapito, :CodLuogo)");
         $aggiungi_evento->bindParam(':denominazione', $nome, PDO::PARAM_INT, 32);
         $aggiungi_evento->bindParam(':tipologia', $tipologia, PDO::PARAM_STR, 32);
-        $aggiungi_evento->bindParam(':descrizione', $descrizione, PDO::PARAM_STR, 64);
+        $aggiungi_evento->bindParam(':descrizione', $descrizione, PDO::PARAM_STR, 255);
         $aggiungi_evento->bindParam(':data_inizio', $data_inizio, PDO::PARAM_STR, 6);
         $aggiungi_evento->bindParam(':data_fine', $data_fine, PDO::PARAM_INT, 6);
         $aggiungi_evento->bindParam(':iscritti', $iscritti, PDO::PARAM_INT, 10);
@@ -187,6 +196,7 @@ class Admin extends UtenteGenerico{
             $query_luogo = "SELECT IDLuogo FROM luoghi WHERE citta = '".$città."' AND via = '".$via."' AND provincia = '".$provincia."'";
             $risultato = $connessione->query($query_luogo);
             $num = $risultato->rowCount();
+            // Se il luogo inserito non è gia presente nel db viene inserito tramite INSERT, altrimenti no
             if($num == 1){
                 $riga = $risultato->fetch(PDO::FETCH_ASSOC);
                 $IdLuogo = $riga['IDLuogo'];
@@ -200,7 +210,7 @@ class Admin extends UtenteGenerico{
                 $riga = $risultato->fetch(PDO::FETCH_ASSOC);
                 $IdLuogo = $riga['IDLuogo'];
             }
-            
+            //modifico l'evento
             $modifica =  "UPDATE eventi SET denominazione = '".$nome_evento."', tipologia = '".$tipologia."', descrizione = '".$descrizione."', data_inizio = '".$data_inizio."', data_fine = '".$data_fine."', max_iscritti = '".$max_iscritti."', prezzo = '".$prezzo."', sito = '".$sito."', recapito = '".$recapito."', CodLuogo = '".$IdLuogo."' WHERE IDEvento = $IdEvento";
             $num = $connessione->exec($modifica);
 
@@ -210,7 +220,9 @@ class Admin extends UtenteGenerico{
                 echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove"></span> Errore durante la modifica dell\'evento : potrebbe essere stato eliminato o la modifica non ha apportato alcun effetto. Riprovare</div>';
             }
                     }
-                    
+            /* Dato un evento estrapolo tutte le prenotazioni per quell'evento e le ordino per numero di iscrizioni
+             * successivamente stampo ogni record come riga di una tabella in html
+             */       
             public function visualizzaUtenti($evento){
                 require '../Database/connect.php';
                 $ricerca = "SELECT * FROM eventi WHERE denominazione = '".$evento."'";

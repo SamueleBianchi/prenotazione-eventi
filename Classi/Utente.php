@@ -4,7 +4,7 @@ require_once 'UtenteGenerico.php';
 
 class Utente extends UtenteGenerico{
     
-    private $IdUtente = "";
+    private $IdUtente = ""; // id univoco dell'utente (non viene utilizzato dall'utente ma solo lato server)
 
     public function __construct($nome, $cognome, $email, $password, $IdUtente) {
         parent::__construct($nome, $cognome, $email, $password);

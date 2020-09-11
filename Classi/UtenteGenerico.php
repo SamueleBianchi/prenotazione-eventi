@@ -4,7 +4,7 @@ require_once 'Persona.php';
 
 class UtenteGenerico extends Persona{
        
-    private $password = "";
+    private $password = ""; //password dell'utente
         
     public function __construct($nome, $cognome, $email, $password) {
         parent::__construct($nome, $cognome, $email, $password);
