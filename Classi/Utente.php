@@ -79,6 +79,9 @@ class Utente extends UtenteGenerico{
         if(strcmp($nuovaPassword,$nuovaPassword2)){
             $message2 = $message2."Le due password non sono uguali.";
         }
+        if(strlen($nuovaPassword) < 8 || strlen($nuovaPassword2) < 8){
+            $message2 = $message2."La nuova password deve contenere almeno 8 caratteri";
+        }
 
         if(strcmp($message, "") || strcmp($message2, "") || strcmp($message_email, "")){
            echo '<div class="alert alert-danger" role="alert">';
